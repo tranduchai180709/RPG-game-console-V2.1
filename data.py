@@ -1,4 +1,3 @@
-from monster import Monster
 from items import Items
 MONSTER_DATA = {
     "1":{
@@ -12,7 +11,7 @@ MONSTER_DATA = {
         "crt dmg": 200,
         "dodge rate": 10,
         "lootable": [
-        ("Potion",40),
+        ("Heal",40),
         ("Iron Armor",5)
         ]
     },
@@ -27,7 +26,7 @@ MONSTER_DATA = {
         "crt dmg": 200,
         "dodge rate": 15,
         "lootable": [
-        ("Potion",20),
+        ("Heal",20),
         ("Iron Sword",10)
         ]
     },
@@ -42,7 +41,7 @@ MONSTER_DATA = {
         "crt dmg": 200,
         "dodge rate": 30,
         "lootable": [
-        ("Potion",10),
+        ("Heal",10),
         ("Iron Sword",3),
         ("Iron Armor",2)
         ]
@@ -53,3 +52,13 @@ ITEM_DATA = {
     "Iron Sword": Items("Iron Sword","Sword",5, False),
     "Iron Armor": Items("Iron Armor","Armor",1, False)
 }
+class Menu:
+    def __init__(self):
+        self.menus = {
+            "1": "attack",
+            "2": "run",
+            "3": "player_status",
+            "4": "inventory",
+            "5": "heal",
+            "6": "monster_status",
+        }

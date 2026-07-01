@@ -42,3 +42,4 @@ class Entity:
     def combat_status(self):
         print(f"===== {self.name} =====")
         self.health_bar()
+        print("-------------------------")
