@@ -11,9 +11,9 @@ MONSTER_DATA = {
         "crt rate": 0,
         "crt dmg": 200,
         "dodge rate": 10,
-        "loottable": [
+        "lootable": [
         ("Potion",40),
-       ("Iron Sword",5)
+        ("Iron Armor",5)
         ]
     },
     "2":{
@@ -25,7 +25,11 @@ MONSTER_DATA = {
         "EXP": 30 ,
         "crt rate": 0,
         "crt dmg": 200,
-        "dodge rate": 151
+        "dodge rate": 15,
+        "lootable": [
+        ("Potion",20),
+        ("Iron Sword",10)
+        ]
     },
     "3":{
         "Name": "Slime",
@@ -36,7 +40,12 @@ MONSTER_DATA = {
         "EXP":10,
         "crt rate": 0,
         "crt dmg": 200,
-        "dodge rate": 30
+        "dodge rate": 30,
+        "lootable": [
+        ("Potion",10),
+        ("Iron Sword",3),
+        ("Iron Armor",2)
+        ]
     }
 }
 ITEM_DATA = {

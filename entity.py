@@ -38,7 +38,7 @@ class Entity:
 
         bar = "█" * filled + "-" * empty
 
-        print(f"HP: [{bar}] {max(0,self.health)} / {self.max_health}")
+        print(f"HP: [{bar}] {round(max(0,self.health))} / {self.max_health}")
     def combat_status(self):
         print(f"===== {self.name} =====")
         self.health_bar()

@@ -6,6 +6,7 @@ from inventory import Inventory
 from run import Run
 from monster import Monster
 from heal import Heal
+from lootsystem import loot_system
 class Game:
     def __init__(self):
         print("===== Welcome to my RPG Game V2.1 =====")
@@ -15,6 +16,7 @@ class Game:
         self.inventory = Inventory()
         self.runs = Run()
         self.heals = Heal()
+        self.loot = loot_system()
     def choice_monster(self):
         print("1: Dark knight")
         print("2: Goblin")
@@ -24,7 +26,7 @@ class Game:
             choice = input("Enter your choice: ")
         data = MONSTER_DATA[choice]
         level = int(input("Choice monster level: "))
-        self.monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], level, data["crt rate"], data["crt dmg"], data["dodge rate"])
+        self.monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], level, data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"])
         self.battles = Battle(self.player, self.monster)
     def player_action(self):
         print("1: Attack")
@@ -48,7 +50,7 @@ class Game:
             if(self.player.health == self.player.max_health):
                 print("Your HP is already full.")
             else:
-                self.heals.heal(self.player)
+                self.heals.heal(self.player, ITEM_DATA["Heal"])
                 self.battles.monster_turn()
         elif action == "6":
             self.monster.status()
@@ -56,6 +58,8 @@ class Game:
             self.inventory.inventory_add(ITEM_DATA["Heal"])
         elif action == "8":
             self.inventory.inventory_add(ITEM_DATA["Iron Sword"])
+        elif action == "9":
+            self.player.equip_sword(ITEM_DATA["Iron Sword"])
     def start(self):
         self.choice_monster()
         self.monster.status(full=False)
@@ -63,6 +67,9 @@ class Game:
             if not self.monster.is_dead():
                 self.player_action()
             else:
+                item = self.loot.roll(self.monster)
+                for item_name in item:
+                    self.inventory.inventory_add(ITEM_DATA[item_name])
                 self.choice_monster()
                 self.monster.status(full=False)
         if self.player.is_dead():

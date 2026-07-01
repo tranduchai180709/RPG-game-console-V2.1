@@ -1,5 +1,4 @@
 from entity import Entity
-
 class Player(Entity):
     def __init__(self, name):
         super().__init__(name, 50, 50, 10, 0, 10, 120, 20)
@@ -45,7 +44,7 @@ class Player(Entity):
         print(f"===== Player {self.name} =====")
         print(f"Level   : {self.level}")
         print()
-        print(f"Health  : {self.health_bar()}")
+        self.health_bar()
         print(f"ATK     : {self.attack}")
         print(f"DEF     : {self.defense}")
         print()
@@ -55,3 +54,8 @@ class Player(Entity):
         print()
         print(f"EXP     : {self.exp} / {self.max_exp}")
         print("-----------------------------------")
+    def equip_sword(self, item):
+        if item.name == "Iron sword":
+            self.attack += item.value
+        elif item.name == "Iron Armor":
+            self.defense += item.value

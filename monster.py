@@ -1,6 +1,6 @@
 from entity import Entity
 class Monster(Entity):
-    def __init__(self, name, health, max_health, attack, defense, exp_drop,level, crit_rate, crit_damage, dodge_rate):
+    def __init__(self, name, health, max_health, attack, defense, exp_drop,level, crit_rate, crit_damage, dodge_rate, lootable):
         super().__init__(name, health, max_health, attack, defense, crit_rate, crit_damage, dodge_rate)
         self.level = level
         self.exp_drop = exp_drop
@@ -12,6 +12,7 @@ class Monster(Entity):
         self.crit_rate = crit_rate
         self.crit_damage = crit_damage
         self.dodge_rate = dodge_rate
+        self.lootable = lootable
     def status(self, full=True):
         print("-----------------------------------")
         print(f"===== {self.name} =====")
