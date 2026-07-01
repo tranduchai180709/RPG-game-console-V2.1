@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives
+*.zip
+
+# Save files (nếu bạn không muốn đưa save game lên GitHub)
+saves/
+
+# Logs
+*.log
