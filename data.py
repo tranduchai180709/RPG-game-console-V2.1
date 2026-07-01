@@ -1,5 +1,5 @@
 from monster import Monster
-#from items import Items
+from items import Items
 MONSTER_DATA = {
     "1":{
         "Name": "Dark knight",
@@ -11,10 +11,10 @@ MONSTER_DATA = {
         "crt rate": 0,
         "crt dmg": 200,
         "dodge rate": 10,
-#        "loottable": [
-#        ("Potion",40),
-#       ("Iron Sword",5)
-#        ]
+        "loottable": [
+        ("Potion",40),
+       ("Iron Sword",5)
+        ]
     },
     "2":{
         "Name": "Goblin",
@@ -25,7 +25,7 @@ MONSTER_DATA = {
         "EXP": 30 ,
         "crt rate": 0,
         "crt dmg": 200,
-        "dodge rate": 15
+        "dodge rate": 151
     },
     "3":{
         "Name": "Slime",
@@ -39,8 +39,8 @@ MONSTER_DATA = {
         "dodge rate": 30
     }
 }
-#ITEM_DATA = {
-#    "Potion": Items("Potion","heal",30),
-#    "Iron Sword": Items("Iron Sword","Sword",5),
-#    "Iron Armor": Items("Iron Armor","Armor",1)
-#}
+ITEM_DATA = {
+    "Heal": Items("Heal","heal",30, True),
+    "Iron Sword": Items("Iron Sword","Sword",5, False),
+    "Iron Armor": Items("Iron Armor","Armor",1, False)
+}

@@ -1,6 +1,7 @@
 from battle import Battle
 from player import Player
 from data import MONSTER_DATA
+from data import ITEM_DATA
 from inventory import Inventory
 from run import Run
 from monster import Monster
@@ -51,6 +52,8 @@ class Game:
                 self.battles.monster_turn()
         elif action == "6":
             self.monster.status()
+        elif action == "7":
+            self.inventory.inventory_add(ITEM_DATA["Heal"])
     def start(self):
         self.choice_monster()
         self.monster.status(full=False)
