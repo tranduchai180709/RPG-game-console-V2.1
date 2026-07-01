@@ -1,4 +1,3 @@
-from data import ITEM_DATA
 class Inventory:
     def __init__(self):
         self.equipment = []
@@ -7,22 +6,30 @@ class Inventory:
         if not self.equipment and not self.stackable_items:
             print("Your inventory is empty")
             return 
-        else:
-            print("==== YOUR INVENTORY ====")
-            for name in self.stackable_items:
-                print(f"{name} x{self.stackable_items[name]}")
-            for i in self.equipment:
+        print("==== YOUR INVENTORY ====")
+        if self.stackable_items:
+                print("Consumables")
+                print("------------------------")
+        for name in self.stackable_items:
+            print(f"{name} x{self.stackable_items[name]}")
+        print()
+        if self.equipment:
+            print("Equipment")
+            print("------------------------")
+        for i in self.equipment:
                 print(i.name)
+        print()
     def inventory_add(self, item):
         if item.stackable:
             if item.name in self.stackable_items:
                 self.stackable_items[item.name] += 1
             else:
                 self.stackable_items[item.name] = 1
-            print(f"You looted {item.name}")
-            print(f"{item.name} count + 1")
+            print(f"You looted {item.name}.")
+            print(f"Current amount: {self.stackable_items[item.name]}")
         else:
             self.equipment.append(item) 
+            print(f"You looted {item.name}")
     def inventory_remove(self, item):
         if item.stackable:
             self.stackable_items[item.name] -= 1

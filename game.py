@@ -54,6 +54,8 @@ class Game:
             self.monster.status()
         elif action == "7":
             self.inventory.inventory_add(ITEM_DATA["Heal"])
+        elif action == "8":
+            self.inventory.inventory_add(ITEM_DATA["Iron Sword"])
     def start(self):
         self.choice_monster()
         self.monster.status(full=False)
