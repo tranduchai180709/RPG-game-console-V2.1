@@ -2,7 +2,10 @@ from entity import Entity
 class Player(Entity):
     def __init__(self, name):
         super().__init__(name, 50, 50, 10, 0, 10, 120, 20)
-        self.attack = 10
+        self.weapon = None
+        self.armor = None
+        self.accessory = None
+        self.base_attack = 10
         self.exp = 0
         self.level = 1
         self.max_exp = 50
@@ -17,7 +20,7 @@ class Player(Entity):
         self.max_health += 20
         self.health = self.max_health
 
-        self.attack += 2
+        self.base_attack += 2
         self.defense += 1
 
         self.heal_health += 2
@@ -45,7 +48,10 @@ class Player(Entity):
         print(f"Level   : {self.level}")
         print()
         self.health_bar()
-        print(f"ATK     : {self.attack}")
+        if self.weapon:
+            print(f"ATK     : {self.attack}: ({self.attack - self.weapon} + {self.weapon})")
+        else:
+            print(f"ATK     : {self.attack}")
         print(f"DEF     : {self.defense}")
         print()
         print(f"Crit    : {self.crit_rate}%")
@@ -54,8 +60,15 @@ class Player(Entity):
         print()
         print(f"EXP     : {self.exp} / {self.max_exp}")
         print("-----------------------------------")
-    def equip_sword(self, item):
-        if item.name == "Iron sword":
-            self.attack += item.value
-        elif item.name == "Iron Armor":
-            self.defense += item.value
+    def attack(self):
+        atk = self.base_attack
+        if self.weapon:
+            atk += self.weapon.value
+        return atk
+    def Equip(self, item):
+        if item.item_type == "Sword":
+            self.weapon = item.value
+            self.attack += self.weapon
+    def run(self):
+        print(f"{self.name} ran away!")
+        return True

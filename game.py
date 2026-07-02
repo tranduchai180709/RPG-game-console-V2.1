@@ -3,7 +3,6 @@ from player import Player
 from data import MONSTER_DATA
 from data import ITEM_DATA
 from inventory import Inventory
-from run import Run
 from monster import Monster
 from heal import Heal
 from lootsystem import loot_system
@@ -13,17 +12,23 @@ class Game:
         print()
         self.player = Player(input("Enter your name: "))
         self.inventory = Inventory()
-        self.runs = Run()
         self.heals = Heal()
         self.loot = loot_system()
+    def run_action(self):
+        self.player.run()
+        self.choice_monster()
+        self.monster.status(full=False)
+    def equip_action(self):
+        self.player.Equip(ITEM_DATA["Iron Sword"])
     def creative_action(self):
         self.actions = {
         "1": (self.battles.start),
-        "2": (self.runs),
+        "2": (self.run_action),
         "3": (self.player.status),
         "4": (self.inventory.inventory_show),
         "5": (self.heal_action),
         "6": (self.monster.status),
+        "7": (self.equip_action)
         }
     def heal_action(self):
         self.heals.heal(self.player, ITEM_DATA["Heal"])
@@ -35,7 +40,8 @@ class Game:
             "3": "player_status",
             "4": "inventory",
             "5": "heal",
-            "6": "monster_status",
+            "6": "monster status",
+            "7": "Equip"
         }
     def choice_monster(self):
         print("1: Dark knight")
@@ -64,11 +70,12 @@ class Game:
         while not self.player.is_dead():
             if not self.monster.is_dead():
                 self.player_action()
-            else:
-                item = self.loot.roll(self.monster)
-                for item_name in item:
-                    self.inventory.inventory_add(ITEM_DATA[item_name])
-                self.choice_monster()
-                self.monster.status(full=False)
+            elif self.monster.is_dead():
+                if self.monster.is_dead():
+                    item = self.loot.roll(self.monster)
+                    for item_name in item:
+                        self.inventory.inventory_add(ITEM_DATA[item_name])
+                    self.choice_monster()
+                    self.monster.status(full=False)
         if self.player.is_dead():
             print("GAME OVER!")
