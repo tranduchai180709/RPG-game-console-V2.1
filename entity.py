@@ -1,16 +1,20 @@
 import random
 class Entity:
-    def __init__(self, name, health, max_health, attack, defense, crit_rate, crit_damage, dodge_rate):
+    def __init__(self, name, health, max_health, base_attack, defense, crit_rate, crit_damage, dodge_rate):
         self.name = name
         self.health = health
         self.max_health = max_health
-        self.attack = attack
+        self.base_attack = base_attack
         self.defense = defense
         self.crit_rate = crit_rate
         self.crit_damage = crit_damage
         self.dodge_rate = dodge_rate
     def is_dead(self):
         return self.health <= 0
+    @property
+    def attack(self):
+        atk = self.base_attack
+        return self.base_attack
     def attack_target(self, target):
         damage = random.randint(self.attack - 4,self.attack + 4)
         if random.randint(1,100) <= self.crit_rate:
@@ -32,8 +36,10 @@ class Entity:
         self.health -= damage
     def health_bar(self):
         length = 20
-
-        filled = int(max(0,self.health) / self.max_health * length)
+        if self.health <= 0:
+            filled = 0
+        else:
+            filled = max(1,int(self.health / self.max_health * length))
         empty = length - filled
 
         bar = "█" * filled + "-" * empty

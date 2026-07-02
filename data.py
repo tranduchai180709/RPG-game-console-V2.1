@@ -50,7 +50,8 @@ MONSTER_DATA = {
 ITEM_DATA = {
     "Heal": Items("Heal","heal",30, True),
     "Iron Sword": Items("Iron Sword","Sword",5, False),
-    "Iron Armor": Items("Iron Armor","Armor",1, False)
+    "Iron Armor": Items("Iron Armor","Armor",1, False),
+    "Steel Sword": Items("Steel Sword", "Sword", 10, False)
 }
 class Menu:
     def __init__(self):

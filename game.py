@@ -18,17 +18,21 @@ class Game:
         self.player.run()
         self.choice_monster()
         self.monster.status(full=False)
-    def equip_action(self):
-        self.player.Equip(ITEM_DATA["Iron Sword"])
+    def choice_item(self):
+        self.inventory.inventory_choice(self.player)
+    def inventory_open(self):
+        self.inventory.inventory_show(self.player)
     def creative_action(self):
         self.actions = {
         "1": (self.battles.start),
         "2": (self.run_action),
         "3": (self.player.status),
-        "4": (self.inventory.inventory_show),
+        "4": (self.inventory_open),
         "5": (self.heal_action),
         "6": (self.monster.status),
-        "7": (self.equip_action)
+        "8": (self.inventory.inventory_add(ITEM_DATA["Iron Sword"])),
+        "8": (self.inventory.inventory_add(ITEM_DATA["Steel Sword"])),
+        "7": (self.choice_item)
         }
     def heal_action(self):
         self.heals.heal(self.player, ITEM_DATA["Heal"])

@@ -49,7 +49,7 @@ class Player(Entity):
         print()
         self.health_bar()
         if self.weapon:
-            print(f"ATK     : {self.attack}: ({self.attack - self.weapon} + {self.weapon})")
+            print(f"ATK     : {self.attack} ({self.attack - self.weapon_atk_value} + {self.weapon_atk_value})")
         else:
             print(f"ATK     : {self.attack}")
         print(f"DEF     : {self.defense}")
@@ -60,15 +60,27 @@ class Player(Entity):
         print()
         print(f"EXP     : {self.exp} / {self.max_exp}")
         print("-----------------------------------")
+    @property
     def attack(self):
         atk = self.base_attack
         if self.weapon:
-            atk += self.weapon.value
+            atk += self.weapon_atk_value
         return atk
-    def Equip(self, item):
-        if item.item_type == "Sword":
-            self.weapon = item.value
-            self.attack += self.weapon
+    def equip(self, item):
+        if not self.weapon is item:
+            if item.item_type == "Sword":
+                self.weapon_atk_value = item.value
+                self.weapon = item
+                print(f"{self.name} Equipepd {item.name}")
+                print()
+        elif self.weapon is item:
+            print(f"{self.name} is already equipped!")
+    def unequip(self, item):
+        if self.weapon is item:
+            if item.item_type == "Sword":
+                self.weapon_atk_value = 0
+                self.weapon = None
+                print(f"{self.name} Unequipped {item.name}")
     def run(self):
         print(f"{self.name} ran away!")
         return True
