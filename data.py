@@ -12,7 +12,8 @@ MONSTER_DATA = {
         "dodge rate": 10,
         "lootable": [
         ("Heal",40),
-        ("Iron Armor",5)
+        ("Steel Sword",5),
+        ("Iron Armor",10)
         ]
     },
     "2":{
@@ -50,7 +51,7 @@ MONSTER_DATA = {
 ITEM_DATA = {
     "Heal": Items("Heal","heal",30, True),
     "Iron Sword": Items("Iron Sword","Sword",5, False),
-    "Iron Armor": Items("Iron Armor","Armor",1, False),
+    "Iron Armor": Items("Iron Armor","Armor",5, False),
     "Steel Sword": Items("Steel Sword", "Sword", 10, False)
 }
 class Menu:

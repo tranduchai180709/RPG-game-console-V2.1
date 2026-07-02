@@ -30,12 +30,13 @@ class Game:
         "4": (self.inventory_open),
         "5": (self.heal_action),
         "6": (self.monster.status),
-        "8": (self.inventory.inventory_add(ITEM_DATA["Iron Sword"])),
-        "8": (self.inventory.inventory_add(ITEM_DATA["Steel Sword"])),
-        "7": (self.choice_item)
+        "7": (self.choice_item),
+        "8": (self.inventory.inventory_add(ITEM_DATA["Iron Armor"])),
+        "9": (self.inventory.inventory_add(ITEM_DATA["Steel Sword"]))
         }
     def heal_action(self):
-        self.heals.heal(self.player, ITEM_DATA["Heal"])
+        self.inventory.inventory_show(self.player)
+        self.inventory.inventory_remove(ITEM_DATA["Heal"])
         self.battles.monster_turn()
     def Menu(self):
         self.menu = {

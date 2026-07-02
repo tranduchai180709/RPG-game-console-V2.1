@@ -25,6 +25,11 @@ class Inventory:
                 if player.weapon is item:
                     equipped = " [E]"
 
+                elif player.armor is item:
+                    equipped = " [E]"
+
+                elif player.accessory is item:
+                    equipped = " [E]"
                 print(f"{index}. {item.name}{equipped}")
         else:
             print("None")
@@ -52,8 +57,6 @@ class Inventory:
         if self.equipment:
             choice = int(input("> ")) - 1
             if 0 <= choice < len(self.equipment):
-                if self.item != None:
-                    player.unequip(self.item)
                 self.item = self.equipment[choice]
                 player.equip(self.item)
         else:

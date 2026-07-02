@@ -1,11 +1,11 @@
 import random
 class Entity:
-    def __init__(self, name, health, max_health, base_attack, defense, crit_rate, crit_damage, dodge_rate):
+    def __init__(self, name, health, max_health, base_attack, base_defense, crit_rate, crit_damage, dodge_rate):
         self.name = name
         self.health = health
         self.max_health = max_health
         self.base_attack = base_attack
-        self.defense = defense
+        self.base_defense = base_defense
         self.crit_rate = crit_rate
         self.crit_damage = crit_damage
         self.dodge_rate = dodge_rate
@@ -15,6 +15,10 @@ class Entity:
     def attack(self):
         atk = self.base_attack
         return self.base_attack
+    @property
+    def defense(self):
+        defense = self.base_defense
+        return self.base_defense
     def attack_target(self, target):
         damage = random.randint(self.attack - 4,self.attack + 4)
         if random.randint(1,100) <= self.crit_rate:

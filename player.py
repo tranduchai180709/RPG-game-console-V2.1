@@ -5,6 +5,7 @@ class Player(Entity):
         self.weapon = None
         self.armor = None
         self.accessory = None
+        self.base_defense = 0
         self.base_attack = 10
         self.exp = 0
         self.level = 1
@@ -21,7 +22,7 @@ class Player(Entity):
         self.health = self.max_health
 
         self.base_attack += 2
-        self.defense += 1
+        self.base_defense += 1
 
         self.heal_health += 2
 
@@ -49,9 +50,11 @@ class Player(Entity):
         print()
         self.health_bar()
         if self.weapon:
-            print(f"ATK     : {self.attack} ({self.attack - self.weapon_atk_value} + {self.weapon_atk_value})")
+            print(f"ATK     : {self.attack} ({self.attack - self.weapon.value} + {self.weapon.value})")
         else:
             print(f"ATK     : {self.attack}")
+        if self.armor:
+            print(f"DEF     : {self.defense} ({self.defense - self.armor.value} + {self.armor.value})")
         print(f"DEF     : {self.defense}")
         print()
         print(f"Crit    : {self.crit_rate}%")
@@ -64,23 +67,68 @@ class Player(Entity):
     def attack(self):
         atk = self.base_attack
         if self.weapon:
-            atk += self.weapon_atk_value
+            atk += self.weapon.value
         return atk
+    @property
+    def defense(self):
+        defense = self.base_defense
+        if self.armor:
+            defense += self.armor.value
+        return defense
     def equip(self, item):
         if not self.weapon is item:
             if item.item_type == "Sword":
-                self.weapon_atk_value = item.value
-                self.weapon = item
-                print(f"{self.name} Equipepd {item.name}")
-                print()
+                self.equip_sword(item)
+            elif item.item_type == "Armor":
+                self.equip_armor(item)
+            elif item.item_type == "Accessory":
+                self.equip_accessory(item)
         elif self.weapon is item:
             print(f"{self.name} is already equipped!")
-    def unequip(self, item):
+    def equip_sword(self, item):
         if self.weapon is item:
-            if item.item_type == "Sword":
-                self.weapon_atk_value = 0
-                self.weapon = None
-                print(f"{self.name} Unequipped {item.name}")
+            print(f"{self.name} is already equipped!")
+            return
+        self.unequip_sword()
+
+        self.weapon = item
+        print(f"{self.name} Equipped {item.name}")
+        print()
+
+    def equip_armor(self, item):
+        if self.armor is item:
+            print(f"{self.name} is already equipped!")
+            return
+        self.unequip_armor()
+
+        self.armor = item
+        print(f"{self.name} Equipped {item.name}")
+        print()
+
+    def equip_accessory(self, item):
+        if self.accessory is item:
+            print(f"{self.name} is already equipped!")
+        self.unequip_accessory()
+        
+        self.accessory = item
+        print(f"{self.name} Equipped {item.name}")
+        print()
+
+    def unequip_sword(self):
+        if self.weapon:
+            print(f"{self.name} Unequipped {self.weapon.name}")
+            self.weapon = None
+            print()
+    def unequip_armor(self):
+        if self.armor:
+            print(f"{self.name} Unequipped {self.armor.name}")
+            self.armor = None
+            print()
+    def unequip_accessory(self):
+        if self.accessory:
+            print(f"{self.name} Unequipped {self.accessory.name}")
+            self.accessory = None
+            print()
     def run(self):
         print(f"{self.name} ran away!")
         return True
