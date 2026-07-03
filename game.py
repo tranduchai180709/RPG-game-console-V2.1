@@ -18,32 +18,37 @@ class Game:
         self.player.run()
         self.choice_monster()
         self.monster.status(full=False)
-    def choice_item(self):
-        self.inventory.inventory_choice(self.player)
     def inventory_open(self):
         self.inventory.inventory_show(self.player)
+        if self.item:
+            self.use_item(item)
+    def use_item(self, item):
+        if item.name == "Sword":
+            self.player.equip(item)
+
+        elif item.name == "Armor":
+            self.player.equip(item)
+
+        elif item.name == "Heal":
+            self.heals.heal(self.player,self.player,item.value)
+
     def creative_action(self):
         self.actions = {
         "1": (self.battles.start),
         "2": (self.run_action),
         "3": (self.player.status),
         "4": (self.inventory_open),
-        "5": (self.heal_action),
         "6": (self.monster.status),
-        "7": (self.choice_item),
+        "8": (self.inventory.inventory_add(ITEM_DATA["Heal"])),
+        "9": (self.inventory.inventory_add(ITEM_DATA["Steel Sword"]))
         }
-    def heal_action(self):
-        self.heals.heal(self.player, ITEM_DATA["Heal"])
-        self.battles.monster_turn()
     def Menu(self):
         self.menu = {
             "1": "attack",
             "2": "run",
             "3": "player_status",
             "4": "inventory",
-            "5": "heal",
-            "6": "monster status",
-            "7": "Equip"
+            "5": "monster status",
         }
     def choice_monster(self):
         print("1: Dark knight")

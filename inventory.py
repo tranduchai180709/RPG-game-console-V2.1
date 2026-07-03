@@ -4,22 +4,27 @@ class Inventory:
         self.stackable_items = {}
         self.item = None
     def inventory_show(self, player):
+        self.display_item = []
         if not self.equipment and not self.stackable_items:
             print("Your inventory is empty")
             return 
         print("==== YOUR INVENTORY ====")
         print("Consumables")
         print("------------------------")
+        self.i = 0
         if self.stackable_items:
-            for name in self.stackable_items:
-                print(f"{name} x{self.stackable_items[name]}")
+            for index, item in enumerate(self.stackable_items, start=1):
+                self.display_item.append(item)
+                print(f"{index}: {item.name} x{self.stackable_items[item]}")
+                self.i += 1
         else:
             print("None")
         print()
         print("Equipment")
         print("------------------------")
         if self.equipment:
-            for index, item in enumerate(self.equipment, start=1):
+            for index, item in enumerate(self.equipment, start= self.i + 1):
+                self.display_item.append(item)
                 equipped = ""
 
                 if player.weapon is item:
@@ -34,14 +39,18 @@ class Inventory:
         else:
             print("None")
         print()
+        self.inventory_choice()
+    def stackable_items_check(self):
+        if self.stackable_items:
+            return True
     def inventory_add(self, item):
         if item.stackable:
             if item.name in self.stackable_items:
-                self.stackable_items[item.name] += 1
+                self.stackable_items[item] += 1
             else:
-                self.stackable_items[item.name] = 1
+                self.stackable_items[item] = 1
             print(f"You looted {item.name}.")
-            print(f"Current amount: {self.stackable_items[item.name]}")
+            print(f"Current amount: {self.stackable_items[item]}")
         else:
             self.equipment.append(item) 
             print(f"You looted {item.name}")
@@ -52,12 +61,7 @@ class Inventory:
                 del self.stackable_items[item.name]
         else:
             self.equipment.remove(item)
-    def inventory_choice(self, player):
-        self.inventory_show(player)
-        if self.equipment:
-            choice = int(input("> ")) - 1
-            if 0 <= choice < len(self.equipment):
-                self.item = self.equipment[choice]
-                player.equip(self.item)
-        else:
-            print("No equipment available.")
+    def inventory_choice(self):
+        choice = int(input("> ")) - 1
+        if 0 <= choice < self.i:
+            return self.display_item[self.i]

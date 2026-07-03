@@ -36,7 +36,7 @@ class Player(Entity):
             self.crit_damage += 10
 
         self.exp -= self.max_exp
-        self.max_exp += 100
+        self.max_exp += self.level * 10 + 50
 
         print(f"Level up! Now level {self.level}")
     def gain_exp(self, drop_exp):
@@ -63,6 +63,7 @@ class Player(Entity):
         print()
         print(f"EXP     : {self.exp} / {self.max_exp}")
         print("-----------------------------------")
+        
     @property
     def attack(self):
         atk = self.base_attack
@@ -75,6 +76,7 @@ class Player(Entity):
         if self.armor:
             defense += self.armor.value
         return defense
+
     def equip(self, item):
         if not self.weapon is item:
             if item.item_type == "Sword":
@@ -85,6 +87,8 @@ class Player(Entity):
                 self.equip_accessory(item)
         elif self.weapon is item:
             print(f"{self.name} is already equipped!")
+
+
     def equip_sword(self, item):
         if self.weapon is item:
             print(f"{self.name} is already equipped!")
@@ -119,16 +123,20 @@ class Player(Entity):
             print(f"{self.name} Unequipped {self.weapon.name}")
             self.weapon = None
             print()
+
     def unequip_armor(self):
         if self.armor:
             print(f"{self.name} Unequipped {self.armor.name}")
             self.armor = None
             print()
+
     def unequip_accessory(self):
         if self.accessory:
             print(f"{self.name} Unequipped {self.accessory.name}")
             self.accessory = None
             print()
+
+
     def run(self):
         print(f"{self.name} ran away!")
         return True
