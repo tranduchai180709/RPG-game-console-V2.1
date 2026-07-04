@@ -1,4 +1,5 @@
 from items import Items
+import random
 MONSTER_DATA = {
     "1":{
         "Name": "Dark knight",

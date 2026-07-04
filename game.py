@@ -20,17 +20,19 @@ class Game:
         self.monster.status(full=False)
     def inventory_open(self):
         self.inventory.inventory_show(self.player)
-        if self.item:
+        item = self.inventory.inventory_choice()
+        if item:
             self.use_item(item)
     def use_item(self, item):
-        if item.name == "Sword":
-            self.player.equip(item)
+        if item.item_type == "Sword":
+            self.player.equip_sword(item)
 
-        elif item.name == "Armor":
-            self.player.equip(item)
+        elif item.item_type == "Armor":
+            self.player.equip_armor(item)
 
-        elif item.name == "Heal":
-            self.heals.heal(self.player,self.player,item.value)
+        elif item.item_type == "heal":
+            if self.heals.heal(self.player, item):
+                self.inventory.inventory_remove(item)
 
     def creative_action(self):
         self.actions = {
@@ -39,8 +41,6 @@ class Game:
         "3": (self.player.status),
         "4": (self.inventory_open),
         "6": (self.monster.status),
-        "8": (self.inventory.inventory_add(ITEM_DATA["Heal"])),
-        "9": (self.inventory.inventory_add(ITEM_DATA["Steel Sword"]))
         }
     def Menu(self):
         self.menu = {
@@ -79,6 +79,7 @@ class Game:
                 self.player_action()
             elif self.monster.is_dead():
                 if self.monster.is_dead():
+                    self.heals.heal(self.player, ITEM_DATA["Heal"])
                     item = self.loot.roll(self.monster)
                     for item_name in item:
                         self.inventory.inventory_add(ITEM_DATA[item_name])

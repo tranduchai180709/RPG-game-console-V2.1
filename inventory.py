@@ -39,10 +39,6 @@ class Inventory:
         else:
             print("None")
         print()
-        self.inventory_choice()
-    def stackable_items_check(self):
-        if self.stackable_items:
-            return True
     def inventory_add(self, item):
         if item.stackable:
             if item.name in self.stackable_items:
@@ -56,12 +52,14 @@ class Inventory:
             print(f"You looted {item.name}")
     def inventory_remove(self, item):
         if item.stackable:
-            self.stackable_items[item.name] -= 1
-            if(self.stackable_items[item.name] == 0):
-                del self.stackable_items[item.name]
+            self.stackable_items[item] -= 1
+            if(self.stackable_items[item] == 0):
+                del self.stackable_items[item]
         else:
             self.equipment.remove(item)
     def inventory_choice(self):
         choice = int(input("> ")) - 1
-        if 0 <= choice < self.i:
-            return self.display_item[self.i]
+        if 0 <= choice < len(self.display_item):
+            return self.display_item[choice]
+        elif choice == -1:
+            return

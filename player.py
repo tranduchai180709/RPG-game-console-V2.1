@@ -90,9 +90,6 @@ class Player(Entity):
 
 
     def equip_sword(self, item):
-        if self.weapon is item:
-            print(f"{self.name} is already equipped!")
-            return
         self.unequip_sword()
 
         self.weapon = item
@@ -100,9 +97,6 @@ class Player(Entity):
         print()
 
     def equip_armor(self, item):
-        if self.armor is item:
-            print(f"{self.name} is already equipped!")
-            return
         self.unequip_armor()
 
         self.armor = item
@@ -110,10 +104,7 @@ class Player(Entity):
         print()
 
     def equip_accessory(self, item):
-        if self.accessory is item:
-            print(f"{self.name} is already equipped!")
         self.unequip_accessory()
-        
         self.accessory = item
         print(f"{self.name} Equipped {item.name}")
         print()
