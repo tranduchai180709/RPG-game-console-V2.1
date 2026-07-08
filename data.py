@@ -43,8 +43,8 @@ MONSTER_DATA = {
         "crt dmg": 200,
         "dodge rate": 30,
         "lootable": [
-        ("Heal",10),
-        ("Iron Sword",3),
+        ("Heal",100),
+        ("Iron Sword",100),
         ("Iron Armor",2)
         ]
     }

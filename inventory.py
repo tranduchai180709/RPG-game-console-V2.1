@@ -7,7 +7,7 @@ class Inventory:
         self.display_item = []
         if not self.equipment and not self.stackable_items:
             print("Your inventory is empty")
-            return 
+            return False
         print("==== YOUR INVENTORY ====")
         print("Consumables")
         print("------------------------")
@@ -35,21 +35,30 @@ class Inventory:
 
                 elif player.accessory is item:
                     equipped = " [E]"
-                print(f"{index}. {item.name}{equipped}")
+                print(f"{equipped} {index}. {item.name} +{item.value}")
         else:
             print("None")
         print()
+        print("0: cancel")
+        print()
+        return True
     def inventory_add(self, item):
         if item.stackable:
-            if item.name in self.stackable_items:
-                self.stackable_items[item] += 1
-            else:
-                self.stackable_items[item] = 1
+            for old_item in self.stackable_items:
+                if old_item.name == item.name:
+                    self.stackable_items[old_item] += 1
+                    print(f"You looted {item.name}.")
+                    print(f"Current amount: {self.stackable_items[old_item]}")
+                    print()
+                    return
+            self.stackable_items[item] = 1
             print(f"You looted {item.name}.")
-            print(f"Current amount: {self.stackable_items[item]}")
+            print(f"Current amount: 1")
+            print()
         else:
             self.equipment.append(item) 
             print(f"You looted {item.name}")
+            print()
     def inventory_remove(self, item):
         if item.stackable:
             self.stackable_items[item] -= 1

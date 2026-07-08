@@ -19,10 +19,10 @@ class Game:
         self.choice_monster()
         self.monster.status(full=False)
     def inventory_open(self):
-        self.inventory.inventory_show(self.player)
-        item = self.inventory.inventory_choice()
-        if item:
-            self.use_item(item)
+        if self.inventory.inventory_show(self.player):
+            item = self.inventory.inventory_choice()
+            if item:
+                self.use_item(item)
     def use_item(self, item):
         if item.item_type == "Sword":
             self.player.equip_sword(item)
@@ -81,8 +81,8 @@ class Game:
                 if self.monster.is_dead():
                     self.heals.heal(self.player, ITEM_DATA["Heal"])
                     item = self.loot.roll(self.monster)
-                    for item_name in item:
-                        self.inventory.inventory_add(ITEM_DATA[item_name])
+                    for items in item:
+                        self.inventory.inventory_add(items)
                     self.choice_monster()
                     self.monster.status(full=False)
         if self.player.is_dead():
