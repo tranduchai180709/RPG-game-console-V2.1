@@ -23,9 +23,9 @@ class Monster(Entity):
             print(f"ATK     : {self.attack}")
             print(f"DEF     : {self.defense}")
             print()
-            print(f"Crit    : {self.crit_rate}")
-            print(f"Crit DMG: {self.crit_damage}")
-            print(f"Dodge   : {self.dodge_rate}")
+            print(f"Crit    : {self.crit_rate}%")
+            print(f"Crit DMG: {self.crit_damage}%")
+            print(f"Dodge   : {self.dodge_rate}%")
         else:
             self.health_bar()
             print(f"ATK     : {self.attack}")

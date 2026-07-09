@@ -1,4 +1,5 @@
 from items import Items
+from rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
 import random
 MONSTER_DATA = {
     "1":{
@@ -50,10 +51,10 @@ MONSTER_DATA = {
     }
 }
 ITEM_DATA = {
-    "Heal": Items("Heal","heal",30, True),
-    "Iron Sword": Items("Iron Sword","Sword",5, False),
-    "Iron Armor": Items("Iron Armor","Armor",5, False),
-    "Steel Sword": Items("Steel Sword", "Sword", 10, False)
+    "Heal": Items("Heal","heal",30, True, COMMON),
+    "Iron Sword": Items("Iron Sword","Sword",5, False, RARE),
+    "Iron Armor": Items("Iron Armor","Armor",5, False, COMMON),
+    "Steel Sword": Items("Steel Sword", "Sword", 10, False, COMMON)
 }
 class Menu:
     def __init__(self):

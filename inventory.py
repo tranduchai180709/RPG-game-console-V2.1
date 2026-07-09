@@ -1,8 +1,8 @@
+from colorama import Fore, Style
 class Inventory:
     def __init__(self):
         self.equipment = []
         self.stackable_items = {}
-        self.item = None
     def inventory_show(self, player):
         self.display_item = []
         if not self.equipment and not self.stackable_items:
@@ -35,7 +35,7 @@ class Inventory:
 
                 elif player.accessory is item:
                     equipped = " [E]"
-                print(f"{equipped} {index}. {item.name} +{item.value}")
+                print(f"{equipped} {index}. {item.name} +{item.value} {item.rarity.color}[{item.rarity.name}] {Style.RESET_ALL}")
         else:
             print("None")
         print()

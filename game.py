@@ -33,6 +33,7 @@ class Game:
         elif item.item_type == "heal":
             if self.heals.heal(self.player, item):
                 self.inventory.inventory_remove(item)
+                self.battles.monster_turn()
 
     def creative_action(self):
         self.actions = {
@@ -40,7 +41,7 @@ class Game:
         "2": (self.run_action),
         "3": (self.player.status),
         "4": (self.inventory_open),
-        "6": (self.monster.status),
+        "5": (self.monster.status),
         }
     def Menu(self):
         self.menu = {
