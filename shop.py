@@ -1,3 +1,6 @@
 class shops:
     def shop_menu(self):
-        pass
+        print("====== BLACKSMITH =====")
+        print()
+    def shop_restock(self):
+        self.stock = []

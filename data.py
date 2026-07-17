@@ -16,7 +16,8 @@ MONSTER_DATA = {
         ("Heal",40),
         ("Steel Sword",5),
         ("Iron Armor",10)
-        ]
+        ],
+        "gold": 50
     },
     "2":{
         "Name": "Goblin",
@@ -31,7 +32,8 @@ MONSTER_DATA = {
         "lootable": [
         ("Heal",20),
         ("Iron Sword",10)
-        ]
+        ],
+        "gold": 30
     },
     "3":{
         "Name": "Slime",
@@ -44,10 +46,11 @@ MONSTER_DATA = {
         "crt dmg": 200,
         "dodge rate": 30,
         "lootable": [
-        ("Heal",100),
-        ("Iron Sword",100),
-        ("Iron Armor",100)
-        ]
+        ("Heal",10),
+        ("Iron Sword",5),
+        ("Iron Armor",2)
+        ],
+        "gold": 15
     }
 }
 ITEM_DATA = {

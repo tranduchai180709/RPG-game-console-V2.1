@@ -1,7 +1,7 @@
 from entity import Entity
 class Player(Entity):
     def __init__(self, name):
-        super().__init__(name, 50, 50, 10, 0, 10, 120, 20)
+        super().__init__(name, 50, 50, 10, 0, 10, 120, 20, 0)
         self.weapon = None
         self.armor = None
         self.accessory = None
@@ -15,6 +15,7 @@ class Player(Entity):
         self.crit_rate = 10
         self.crit_damage = 120
         self.dodge_rate = 20
+        self.gold = 0
     def level_up(self):
         self.level += 1
 
@@ -37,7 +38,7 @@ class Player(Entity):
 
         self.exp -= self.max_exp
         self.max_exp += self.level * 10 + 50
-
+        self.gold += 10
         print(f"Level up! Now level {self.level}")
     def gain_exp(self, drop_exp):
         self.exp += drop_exp
@@ -131,3 +132,5 @@ class Player(Entity):
     def run(self):
         print(f"{self.name} ran away!")
         return True
+    def add_gold(self,golds):
+        self.gold += golds

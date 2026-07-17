@@ -60,7 +60,7 @@ class Game:
             choice = input("Enter your choice: ")
         data = MONSTER_DATA[choice]
         level = int(input("Choice monster level: "))
-        self.monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], level, data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"])
+        self.monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], level, data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
         self.battles = Battle(self.player, self.monster)
         self.creative_action()
         self.Menu()
@@ -81,6 +81,8 @@ class Game:
             elif self.monster.is_dead():
                 if self.monster.is_dead():
                     self.heals.heal(self.player, ITEM_DATA["Heal"])
+                    gold = self.monster.drop_gold()
+                    self.player.add_gold(gold)
                     item = self.loot.roll(self.monster)
                     for items in item:
                         self.inventory.inventory_add(items)

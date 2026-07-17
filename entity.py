@@ -1,6 +1,6 @@
 import random
 class Entity:
-    def __init__(self, name, health, max_health, base_attack, base_defense, crit_rate, crit_damage, dodge_rate):
+    def __init__(self, name, health, max_health, base_attack, base_defense, crit_rate, crit_damage, dodge_rate, gold):
         self.name = name
         self.health = health
         self.max_health = max_health
@@ -9,6 +9,7 @@ class Entity:
         self.crit_rate = crit_rate
         self.crit_damage = crit_damage
         self.dodge_rate = dodge_rate
+        self.gold = gold
     def is_dead(self):
         return self.health <= 0
     @property

@@ -7,8 +7,13 @@ class Inventory:
         self.display_item = []
         if not self.equipment and not self.stackable_items:
             print("Your inventory is empty")
+            print()
+            print(f"Gold: {player.gold}")
             return False
         print("==== YOUR INVENTORY ====")
+        print()
+        print(f"Gold: {player.gold}")
+        print()
         print("Consumables")
         print("------------------------")
         self.i = 0
