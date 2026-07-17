@@ -6,6 +6,6 @@ class Rarity:
         self.color = color
 COMMON = Rarity("Common", 1, Fore.WHITE)
 UNCOMMON = Rarity("Uncommon", 1.2, Fore.GREEN)
-RARE = Rarity("Rare", 2, Fore.BLUE)
+RARE = Rarity("Rare", 2, Fore.LIGHTBLUE_EX)
 EPIC = Rarity("Epic", 3.0, Fore.MAGENTA)
 LEGENDARY = Rarity("Legendary", 5.0, Fore.YELLOW)

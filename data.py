@@ -46,7 +46,7 @@ MONSTER_DATA = {
         "lootable": [
         ("Heal",100),
         ("Iron Sword",100),
-        ("Iron Armor",2)
+        ("Iron Armor",100)
         ]
     }
 }
