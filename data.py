@@ -47,7 +47,7 @@ MONSTER_DATA = {
         "dodge rate": 30,
         "lootable": [
         ("Heal",10),
-        ("Iron Sword",5),
+        ("Iron Sword",100),
         ("Iron Armor",2)
         ],
         "gold": 15
@@ -55,9 +55,10 @@ MONSTER_DATA = {
 }
 ITEM_DATA = {
     "Heal": Items("Heal","heal",30, True, COMMON),
-    "Iron Sword": Items("Iron Sword","Sword",5, False, RARE),
+    "Iron Sword": Items("Iron Sword","Sword",5, False, COMMON),
     "Iron Armor": Items("Iron Armor","Armor",5, False, COMMON),
-    "Steel Sword": Items("Steel Sword", "Sword", 10, False, COMMON)
+    "Steel Sword": Items("Steel Sword", "Sword", 10, False, COMMON),
+    "None": Items("None", "None", 0, False, COMMON)
 }
 class Menu:
     def __init__(self):

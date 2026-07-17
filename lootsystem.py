@@ -19,19 +19,22 @@ class loot_system:
                 template.stackable,
                 template.rarity
             )
-            if not item.stackable:
-                rarity_roll = random.randint(1,100)
-                if rarity_roll <= 60:
-                    item.rarity = COMMON
-                elif rarity_roll <= 85:
-                    item.rarity = UNCOMMON
-                elif rarity_roll <= 95:
-                    item.rarity = RARE
-                elif rarity_roll <= 99:
-                    item.rarity = EPIC
-                else:
-                    item.rarity = LEGENDARY
-                mul_item_value = template.value * item.rarity.multipler
-                item.value = random.randint(int(mul_item_value) - 4, int(mul_item_value) + 4)
-            drop_item.append(item)
+            droped_item = self.roll_rarity(item)
+        drop_item.append(droped_item)
         return drop_item 
+    def roll_rarity(self, item):
+        if not item.stackable:
+            rarity_roll = random.randint(1,100)
+            if rarity_roll <= 60:
+                item.rarity = COMMON
+            elif rarity_roll <= 85:
+                item.rarity = UNCOMMON
+            elif rarity_roll <= 95:
+                item.rarity = RARE
+            elif rarity_roll <= 99:
+                item.rarity = EPIC
+            else:
+                item.rarity = LEGENDARY
+            mul_item_value = item.value * item.rarity.multipler
+            item.value = random.randint(int(mul_item_value) - 4, int(mul_item_value) + 4)
+            return item

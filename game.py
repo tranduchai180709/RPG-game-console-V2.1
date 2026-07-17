@@ -6,6 +6,7 @@ from inventory import Inventory
 from monster import Monster
 from heal import Heal
 from lootsystem import loot_system
+from shop import shops
 class Game:
     def __init__(self):
         print("===== Welcome to my RPG Game V2.1 =====")
@@ -14,6 +15,7 @@ class Game:
         self.inventory = Inventory()
         self.heals = Heal()
         self.loot = loot_system()
+        self.shop = shops()
     def run_action(self):
         self.player.run()
         self.choice_monster()
@@ -34,7 +36,8 @@ class Game:
             if self.heals.heal(self.player, item):
                 self.inventory.inventory_remove(item)
                 self.battles.monster_turn()
-
+    def shop(self):
+        shop.shop_menu()
     def creative_action(self):
         self.actions = {
         "1": (self.battles.start),
@@ -42,14 +45,16 @@ class Game:
         "3": (self.player.status),
         "4": (self.inventory_open),
         "5": (self.monster.status),
+        "6": (self.shop.shop_menu)
         }
     def Menu(self):
         self.menu = {
-            "1": "attack",
-            "2": "run",
-            "3": "player_status",
-            "4": "inventory",
-            "5": "monster status",
+            "1": "Attack",
+            "2": "Run",
+            "3": "Player status",
+            "4": "Inventory",
+            "5": "Monster status",
+            "6": "Shop"
         }
     def choice_monster(self):
         print("1: Dark knight")
