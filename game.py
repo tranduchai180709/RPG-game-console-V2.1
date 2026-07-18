@@ -36,8 +36,13 @@ class Game:
             if self.heals.heal(self.player, item):
                 self.inventory.inventory_remove(item)
                 self.battles.monster_turn()
-    def shop(self):
-        shop.shop_menu()
+    def shops(self):
+        shop_item = self.shop.shop_choice(self.player)
+        if shop_item:
+            self.inventory.inventory_add(shop_item)
+            self.shops()
+        else:
+            return
     def creative_action(self):
         self.actions = {
         "1": (self.battles.start),
@@ -45,7 +50,7 @@ class Game:
         "3": (self.player.status),
         "4": (self.inventory_open),
         "5": (self.monster.status),
-        "6": (self.shop.shop_menu)
+        "6": (self.shops)
         }
     def Menu(self):
         self.menu = {
@@ -69,6 +74,7 @@ class Game:
         self.battles = Battle(self.player, self.monster)
         self.creative_action()
         self.Menu()
+        self.shop.shop_restock()
     def player_action(self):
         for key, text in self.menu.items():
             print(f"{key}: {text}")

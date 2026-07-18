@@ -17,10 +17,13 @@ class loot_system:
                 template.item_type,
                 template.value,
                 template.stackable,
-                template.rarity
+                template.rarity,
+                template.base_price
             )
-            droped_item = self.roll_rarity(item)
-        drop_item.append(droped_item)
+            print(f"You looted {item.name}.")
+            print()
+            item.rarity = self.roll_rarity(item)
+            drop_item.append(item)
         return drop_item 
     def roll_rarity(self, item):
         if not item.stackable:

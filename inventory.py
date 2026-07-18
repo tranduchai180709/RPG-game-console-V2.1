@@ -6,13 +6,14 @@ class Inventory:
     def inventory_show(self, player):
         self.display_item = []
         if not self.equipment and not self.stackable_items:
+            print(f"Gold: {player.gold:,}")
+            print()
             print("Your inventory is empty")
             print()
-            print(f"Gold: {player.gold}")
             return False
         print("==== YOUR INVENTORY ====")
         print()
-        print(f"Gold: {player.gold}")
+        print(f"Gold: {player.gold:,}")
         print()
         print("Consumables")
         print("------------------------")
@@ -52,17 +53,17 @@ class Inventory:
             for old_item in self.stackable_items:
                 if old_item.name == item.name:
                     self.stackable_items[old_item] += 1
-                    print(f"You looted {item.name}.")
+                    print(f"Added {item.name} to your inventory.")
                     print(f"Current amount: {self.stackable_items[old_item]}")
                     print()
                     return
             self.stackable_items[item] = 1
-            print(f"You looted {item.name}.")
+            print(f"Added {item.name} to your inventory.")
             print(f"Current amount: 1")
             print()
         else:
             self.equipment.append(item) 
-            print(f"You looted {item.name}")
+            print(f"Added {item.name} to your inventory.")
             print()
     def inventory_remove(self, item):
         if item.stackable:

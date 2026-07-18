@@ -56,7 +56,8 @@ class Player(Entity):
             print(f"ATK     : {self.attack}")
         if self.armor:
             print(f"DEF     : {self.defense} ({self.defense - self.armor.value} + {self.armor.value})")
-        print(f"DEF     : {self.defense}")
+        else:
+            print(f"DEF     : {self.defense}")
         print()
         print(f"Crit    : {self.crit_rate}%")
         print(f"Crit DMG: {self.crit_damage}%")

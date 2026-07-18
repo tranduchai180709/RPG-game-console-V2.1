@@ -34,7 +34,7 @@ sudo apt install python3-colorama
 ## Windows/macOS
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install colorama
 ```
 
 ## Run
