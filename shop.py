@@ -39,7 +39,7 @@ class shops:
                     random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
                 )
             self.stock.append(item)
-    def shop_choice(self, player):
+    def shop_choice(self, player, inventory):
         while True:
             print("1: Buy")
             print("2: Sell")
@@ -76,10 +76,31 @@ class shops:
                     print()
                     return None            
             elif(player_choice == "2"):
-                return None
+                if inventory.inventory_show(player):
+                    inv_item = inventory.inventory_choice()
+                    if inv_item:
+                        item_price = int(inv_item.base_price * 0.7)
+                        print(f"Sell {inv_item.name} for {item_price} G?")
+                        print("1:Yes")
+                        print("2:No")
+                        print()
+                        choice = input("> ")
+                        while choice not in ["1", "2"]:
+                            print("Invaild command")
+                            choice = input("> ")
+                        if choice == "1":
+                            print()
+                            player.gold += item_price
+                            print(f"Sold {inv_item.name}")
+                            print(f"+{item_price} G")
+                            print(f"Gold: {player.gold}")
+                            print()
+                            inventory.inventory_remove(inv_item)
+                        else:
+                            return
             elif(player_choice == "0"):
                 return None
             else:
                 print("Invaild command")
                 print()
-                self.shop_choice(player)
+                self.shop_choice(player,inventory)

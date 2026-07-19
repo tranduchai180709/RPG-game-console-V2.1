@@ -37,7 +37,7 @@ class Game:
                 self.inventory.inventory_remove(item)
                 self.battles.monster_turn()
     def shops(self):
-        shop_item = self.shop.shop_choice(self.player)
+        shop_item = self.shop.shop_choice(self.player,self.inventory)
         if shop_item:
             self.inventory.inventory_add(shop_item)
             self.shops()

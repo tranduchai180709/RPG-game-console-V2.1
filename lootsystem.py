@@ -18,11 +18,11 @@ class loot_system:
                 template.value,
                 template.stackable,
                 template.rarity,
-                template.base_price
+                random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
             )
             print(f"You looted {item.name}.")
             print()
-            item.rarity = self.roll_rarity(item)
+            self.roll_rarity(item)
             drop_item.append(item)
         return drop_item 
     def roll_rarity(self, item):
@@ -40,4 +40,3 @@ class loot_system:
                 item.rarity = LEGENDARY
             mul_item_value = item.value * item.rarity.multipler
             item.value = random.randint(int(mul_item_value) - 4, int(mul_item_value) + 4)
-            return item

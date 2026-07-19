@@ -95,20 +95,20 @@ class Player(Entity):
         self.unequip_sword()
 
         self.weapon = item
-        print(f"{self.name} Equipped {item.name}")
+        print(f"{self.name} equipped {item.name}")
         print()
 
     def equip_armor(self, item):
         self.unequip_armor()
 
         self.armor = item
-        print(f"{self.name} Equipped {item.name}")
+        print(f"{self.name} equipped {item.name}")
         print()
 
     def equip_accessory(self, item):
         self.unequip_accessory()
         self.accessory = item
-        print(f"{self.name} Equipped {item.name}")
+        print(f"{self.name} equipped {item.name}")
         print()
 
     def unequip_sword(self):

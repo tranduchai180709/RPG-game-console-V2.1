@@ -31,17 +31,23 @@ class Inventory:
         if self.equipment:
             for index, item in enumerate(self.equipment, start= self.i + 1):
                 self.display_item.append(item)
-                equipped = ""
+                equipped = "[ ]"
 
                 if player.weapon is item:
-                    equipped = " [E]"
+                    equipped = "[W]"
 
                 elif player.armor is item:
-                    equipped = " [E]"
+                    equipped = "[A]"
 
                 elif player.accessory is item:
-                    equipped = " [E]"
-                print(f"{equipped} {index}. {item.name} +{item.value} {item.rarity.color}[{item.rarity.name}] {Style.RESET_ALL}")
+                    equipped = "[R]"
+                print(
+        f"{equipped}"
+        f"{index:>2}. "
+        f"{item.name:<15} "
+        f"{item.value:+4} "
+        f"{item.rarity.color}[{item.rarity.name}]{Style.RESET_ALL}"
+    )
         else:
             print("None")
         print()
