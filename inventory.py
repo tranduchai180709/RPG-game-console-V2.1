@@ -1,5 +1,24 @@
 from colorama import Fore, Style
+from items import Items
 class Inventory:
+    def to_dict(self):
+        return{
+            "equipment": [item.to_dict() for item in self.equipment],
+            "consumables": {
+                item.name:count
+                for item, count in self.stackable_items.items()
+            }
+        }
+    @classmethod
+    def from_dict(cls, data):
+        inventory = cls()
+        for item_data in data["equipment"]:
+            item = Items.from_dict(item_data)
+            inventory.equipment.append(item)
+        for entry in data["consumables"]:
+            item = Items.from_dict(entry["item"])
+            inventory.stackable_items[item] = entry["count"]
+        return inventory
     def __init__(self):
         self.equipment = []
         self.stackable_items = {}

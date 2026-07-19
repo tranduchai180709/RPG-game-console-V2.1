@@ -58,6 +58,7 @@ ITEM_DATA = {
     "Iron Sword": Items("Iron Sword","Sword",5, False, COMMON, 100),
     "Iron Armor": Items("Iron Armor","Armor",5, False, COMMON, 120),
     "Steel Sword": Items("Steel Sword", "Sword", 10, False, COMMON, 150),
+    "Health Ring": Items("Health Ring", "Accessory", 10, False, COMMON, 90)
 }
 class Menu:
     def __init__(self):

@@ -7,6 +7,7 @@ from monster import Monster
 from heal import Heal
 from lootsystem import loot_system
 from shop import shops
+from saveload import save_game, load_game
 class Game:
     def __init__(self):
         print("===== Welcome to my RPG Game V2.1 =====")
@@ -16,6 +17,7 @@ class Game:
         self.heals = Heal()
         self.loot = loot_system()
         self.shop = shops()
+        self.battles = Battle()
     def run_action(self):
         self.player.run()
         self.choice_monster()
@@ -35,7 +37,7 @@ class Game:
         elif item.item_type == "heal":
             if self.heals.heal(self.player, item):
                 self.inventory.inventory_remove(item)
-                self.battles.monster_turn()
+                self.battles.monster_turn(self.player, self.monster)
     def shops(self):
         shop_item = self.shop.shop_choice(self.player,self.inventory)
         if shop_item:
@@ -43,14 +45,27 @@ class Game:
             self.shops()
         else:
             return
+    def save_action(self):
+        save_game(self.player, self.inventory)
+    def battle_start(self):
+        self.battles.start(self.player, self.monster)
+    def load_action(self):
+        self.player, self.inventory = load_game()
+        print(self.player.name)
+        print(self.player.health)
+        print(self.player.max_health)
+    def status_player(self):
+        self.player.status(self.player)
     def creative_action(self):
         self.actions = {
-        "1": (self.battles.start),
+        "1": (self.battle_start),
         "2": (self.run_action),
-        "3": (self.player.status),
+        "3": (self.status_player),
         "4": (self.inventory_open),
         "5": (self.monster.status),
-        "6": (self.shops)
+        "6": (self.shops),
+        "7": (self.save_action),
+        "8": (self.load_action)
         }
     def Menu(self):
         self.menu = {
@@ -59,7 +74,9 @@ class Game:
             "3": "Player status",
             "4": "Inventory",
             "5": "Monster status",
-            "6": "Shop"
+            "6": "Shop",
+            "7": "Save game",
+            "8": "Load game"
         }
     def choice_monster(self):
         print("1: Dark knight")
@@ -71,7 +88,7 @@ class Game:
         data = MONSTER_DATA[choice]
         level = int(input("Choice monster level: "))
         self.monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], level, data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
-        self.battles = Battle(self.player, self.monster)
+        self.battles = Battle()
         self.creative_action()
         self.Menu()
         self.shop.shop_restock()

@@ -11,6 +11,7 @@ A console RPG game written in Python.
 - Equipment
 - Loot system
 - Healing items
+- Save / Load game
 
 ## Requirements
 
