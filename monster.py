@@ -21,7 +21,7 @@ class Monster(Entity):
         if(full == True):
             print(f"Level   : {self.level}")
             print()
-            print(f"Health  : {self.health_bar()}")
+            self.health_bar()
             print(f"ATK     : {self.attack}")
             print(f"DEF     : {self.defense}")
             print()

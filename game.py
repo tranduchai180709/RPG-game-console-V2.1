@@ -8,9 +8,10 @@ from heal import Heal
 from lootsystem import loot_system
 from shop import shops
 from saveload import save_game, load_game
+from wavemanager import wave
 class Game:
     def __init__(self):
-        print("===== Welcome to my RPG Game V2.1 =====")
+        print("===== Welcome to my RPG Game V2.1.1 =====")
         print()
         self.player = Player(input("Enter your name: "))
         self.inventory = Inventory()
@@ -18,6 +19,7 @@ class Game:
         self.loot = loot_system()
         self.shop = shops()
         self.battles = Battle()
+        self.wave = wave()
     def run_action(self):
         self.player.run()
         self.choice_monster()
@@ -79,15 +81,7 @@ class Game:
             "8": "Load game"
         }
     def choice_monster(self):
-        print("1: Dark knight")
-        print("2: Goblin")
-        print("3: Slime")
-        choice = input("Enter your choice: ")
-        while not choice in MONSTER_DATA:
-            choice = input("Enter your choice: ")
-        data = MONSTER_DATA[choice]
-        level = int(input("Choice monster level: "))
-        self.monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], level, data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
+        self.monster = self.wave.next_wave()
         self.battles = Battle()
         self.creative_action()
         self.Menu()
