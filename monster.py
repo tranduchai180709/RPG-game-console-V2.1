@@ -5,16 +5,16 @@ class Monster(Entity):
         super().__init__(name, health, max_health, base_attack, base_defense, crit_rate, crit_damage, dodge_rate, gold)
         self.level = level
         self.exp_drop = exp_drop
-        self.base_attack = base_attack + level * 2
-        self.max_health = health + level * 5
+        self.base_attack = base_attack + self.level * 2
+        self.max_health = health + self.level * 5
         self.health = self.max_health
-        self.base_defense = base_defense + level
-        self.exp_drop = exp_drop + level * 20
+        self.base_defense = base_defense + self.level
+        self.exp_drop = exp_drop + self.level * 20
         self.crit_rate = crit_rate
         self.crit_damage = crit_damage
         self.dodge_rate = dodge_rate
         self.lootable = lootable
-        self.gold = gold + (level - 1) * 10
+        self.gold = gold + (self.level - 1) * 10
     def status(self, full=True):
         print("-----------------------------------")
         print(f"===== {self.name} =====")
@@ -29,6 +29,8 @@ class Monster(Entity):
             print(f"Crit DMG: {self.crit_damage}%")
             print(f"Dodge   : {self.dodge_rate}%")
         else:
+            print(f"Level   : {self.level}")
+            print()
             self.health_bar()
             print(f"ATK     : {self.attack}")
             print(f"DEF     : {self.defense}")

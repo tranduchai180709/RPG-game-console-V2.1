@@ -16,7 +16,8 @@ MONSTER_DATA = {
         "lootable": [
         ("Heal",40),
         ("Steel Sword",5),
-        ("Iron Armor",10)
+        ("Iron Armor",10),
+        ("Health Ring",15)
         ],
         "gold": 50
     },
@@ -33,7 +34,8 @@ MONSTER_DATA = {
         "dodge rate": 15,
         "lootable": [
         ("Heal",20),
-        ("Iron Sword",10)
+        ("Iron Sword",10),
+        ("Health Ring", 5)
         ],
         "gold": 30
     },
@@ -50,8 +52,9 @@ MONSTER_DATA = {
         "dodge rate": 30,
         "lootable": [
         ("Heal",10),
-        ("Iron Sword",100),
-        ("Iron Armor",100)
+        ("Iron Sword",5),
+        ("Iron Armor",2),
+        ("Health Ring", 1)
         ],
         "gold": 15
     }

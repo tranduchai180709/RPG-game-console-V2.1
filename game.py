@@ -53,9 +53,6 @@ class Game:
         self.battles.start(self.player, self.monster)
     def load_action(self):
         self.player, self.inventory = load_game()
-        print(self.player.name)
-        print(self.player.health)
-        print(self.player.max_health)
     def status_player(self):
         self.player.status(self.player)
     def creative_action(self):

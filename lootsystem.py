@@ -1,4 +1,5 @@
 import random
+from colorama import Style, Fore
 from data import ITEM_DATA
 from rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
 from items import Items
@@ -10,20 +11,37 @@ class loot_system:
             check = random.randint(1, 100)
             if check <= i[1]:
                 list_drop_item.append(i[0])
-        for item_name in list_drop_item:
-            template = ITEM_DATA[item_name]
-            item = Items(
-                template.name,
-                template.item_type,
-                template.value,
-                template.stackable,
-                template.rarity,
-                random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
+            gold = monster.drop_gold()
+        print()
+        print(f"+{monster.exp_drop} EXP")
+        print(f"+{gold} G")
+        print()
+        if list_drop_item:
+            print("=========================")
+            print("|         Loot          |")
+            print("=========================")
+            for item_name in list_drop_item:
+                template = ITEM_DATA[item_name]
+                item = Items(
+                    template.name,
+                    template.item_type,
+                    template.value,
+                    template.stackable,
+                    template.rarity,
+                    random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
+                )
+                self.roll_rarity(item)
+                if item.stackable:
+                    print(f"{item.name} x1")
+                else:
+                    print(
+                f"{item.name:<10} "
+                f"{item.value:+4} "
+                f"{item.rarity.color}[{item.rarity.name}]{Style.RESET_ALL}"
             )
-            print(f"You looted {item.name}.")
+                drop_item.append(item)
+            print("-------------------------")
             print()
-            self.roll_rarity(item)
-            drop_item.append(item)
         return drop_item 
     def roll_rarity(self, item):
         if not item.stackable:
