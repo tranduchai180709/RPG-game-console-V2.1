@@ -78,11 +78,11 @@ class Inventory:
             for old_item in self.stackable_items:
                 if old_item.name == item.name:
                     self.stackable_items[old_item] += 1
-                    print(f"{self.old_item.name} amount: {self.stackable_items[old_item]}")
+                    print(f"{old_item.name} amount: {self.stackable_items[old_item]}")
                     print()
                     return
             self.stackable_items[item] = 1
-            print(f"{self.name} amount: 1")
+            print(f"{item.name} amount: 1")
             print()
         else:
             self.equipment.append(item) 

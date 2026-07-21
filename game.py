@@ -9,6 +9,7 @@ from lootsystem import loot_system
 from shop import shops
 from saveload import save_game, load_game
 from wavemanager import wave
+from skill import skill
 class Game:
     def __init__(self):
         print("===== Welcome to my RPG Game V2.1.1 =====")
@@ -18,8 +19,8 @@ class Game:
         self.heals = Heal()
         self.loot = loot_system()
         self.shop = shops()
-        self.battles = Battle()
         self.wave = wave()
+        self.skill = skill()
     def run_action(self):
         self.player.run()
         self.choice_monster()
@@ -55,9 +56,24 @@ class Game:
         self.player, self.inventory = load_game()
     def status_player(self):
         self.player.status(self.player)
+    def attack_skill(self):
+        self.skill.menu()
+        choice = input("> ")
+        if choice == "1":
+            self.battle_start()
+            return
+        elif choice == "2":
+            self.skill.menu_skill()
+            choice = input("> ")
+            if choice == "1":
+                self.skill.slash(self.player, self.monster, self.battles)
+                return
+            elif choice == "2":
+                self.skill.heavy_strike(self.player, self.monster, self.battles)
+                return
     def creative_action(self):
         self.actions = {
-        "1": (self.battle_start),
+        "1": (self.attack_skill),
         "2": (self.run_action),
         "3": (self.status_player),
         "4": (self.inventory_open),
