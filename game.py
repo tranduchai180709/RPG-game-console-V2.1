@@ -9,7 +9,7 @@ from lootsystem import loot_system
 from shop import shops
 from saveload import save_game, load_game
 from wavemanager import wave
-from skill import skill
+from skill import Skill, SKILLS
 class Game:
     def __init__(self):
         print("===== Welcome to my RPG Game V2.1.1 =====")
@@ -20,7 +20,7 @@ class Game:
         self.loot = loot_system()
         self.shop = shops()
         self.wave = wave()
-        self.skill = skill()
+        self.skill = Skill()
     def run_action(self):
         self.player.run()
         self.choice_monster()
@@ -51,7 +51,7 @@ class Game:
     def save_action(self):
         save_game(self.player, self.inventory)
     def battle_start(self):
-        self.battles.start(self.player, self.monster)
+        self.battles.start(self.player, self.monster, 1, 1)
     def load_action(self):
         self.player, self.inventory = load_game()
     def status_player(self):
@@ -63,14 +63,17 @@ class Game:
             self.battle_start()
             return
         elif choice == "2":
-            self.skill.menu_skill()
+            self.skill.menu_skill(self.player)
             choice = input("> ")
-            if choice == "1":
-                self.skill.slash(self.player, self.monster, self.battles)
-                return
-            elif choice == "2":
-                self.skill.heavy_strike(self.player, self.monster, self.battles)
-                return
+            skills = SKILLS[choice]
+            for index in self.player.skill:
+                if skills["name"] == self.player.skill[index]["name"]:
+                    if self.player.skill[index]["current_cd"] == 0:
+                        self.player.skill[index]["current_cd"] = skills["cooldown"]
+                        self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"])
+                    else:
+                        print("Skill in cooldown.")
+
     def creative_action(self):
         self.actions = {
         "1": (self.attack_skill),
@@ -114,14 +117,13 @@ class Game:
             if not self.monster.is_dead():
                 self.player_action()
             elif self.monster.is_dead():
-                if self.monster.is_dead():
-                    self.heals.heal(self.player, ITEM_DATA["Heal"])
-                    gold = self.monster.drop_gold()
-                    self.player.add_gold(gold)
-                    item = self.loot.roll(self.monster)
-                    for items in item:
-                        self.inventory.inventory_add(items)
-                    self.choice_monster()
-                    self.monster.status(full=False)
+                self.heals.heal(self.player, ITEM_DATA["Heal"])
+                gold = self.monster.drop_gold()
+                self.player.add_gold(gold)
+                item = self.loot.roll(self.monster)
+                for items in item:
+                    self.inventory.inventory_add(items)
+                self.choice_monster()
+                self.monster.status(full=False)
         if self.player.is_dead():
             print("GAME OVER!")

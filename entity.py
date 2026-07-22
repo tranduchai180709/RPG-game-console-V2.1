@@ -20,10 +20,11 @@ class Entity:
     def defense(self):
         defense = self.base_defense
         return self.base_defense
-    def attack_target(self, target):
-        damage = random.randint(self.attack - 4,self.attack + 4)
+    def attack_target(self, target, attack_multipler, defense_multipler):
+        damage = random.randint(int(self.attack * attack_multipler) - 4,int(self.attack *attack_multipler) + 4)
         if random.randint(1,100) <= self.crit_rate:
             damage = damage * self.crit_damage / 100
+            damage = max(1, damage - target.defense * defense_multipler)
             print("Critical!!!")
             print(f"{self.name} dealt {round(min(damage, target.health), 0)} to {target.name}")
             target.take_damage(damage)

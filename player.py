@@ -1,5 +1,6 @@
 from entity import Entity
 from items import Items
+from skill import SKILLS
 class Player(Entity):
     def to_dict(self):
         return {
@@ -57,6 +58,7 @@ class Player(Entity):
         self.exp = 0
         self.level = 1
         self.max_exp = 50
+        self.skill = {}
     def level_up(self):
         self.level += 1
 
@@ -75,6 +77,29 @@ class Player(Entity):
         if self.level % 20 == 0:
             self.crit_damage += 10
 
+        if self.level == 2:
+            self.skill.update({1:{
+                "name": "Slash",
+                "attack_multiplier": 1.2,
+                "defense_multiplier": 1,
+                "cooldown": 2,
+                "current_cd": 0
+                }
+                })
+            print("You learned Slash skill")
+
+        if self.level == 5:
+            self.skill.update({2:
+            {
+                "name": "Heavy Strike",
+                "attack_multiplier": 1.2,
+                "defense_multiplier": 1,
+                "cooldown": 2,
+                "current_cd": 0
+                
+            }
+            })
+            print("You learned Heavy Strike skill")
         self.exp -= self.max_exp
         self.max_exp += self.level * 10 + 50
         self.gold += 10

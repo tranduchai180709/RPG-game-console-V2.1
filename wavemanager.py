@@ -17,19 +17,22 @@ class wave:
         if 25 + 2 * self.choice < monster_choice:
             data = MONSTER_DATA["3"]
             monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
-            monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            if self.wave >= 5:
+                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
         elif 10 + 2 * self.choice < monster_choice < 25 + 2 * self.choice:
             data = MONSTER_DATA["2"]
             monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
             self.choice = max(0, self.wave - 5)
             self.choice = min(self.choice, 100)
-            monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            if self.wave >= 5:
+                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
         else:
             data = MONSTER_DATA["1"]
             monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
             self.choice = max(0, self.wave - 10)
             self.choice = min(self.choice, 100)
-            monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            if self.wave >= 5:
+                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
         ms = self.scale_monster(monster)
         return ms
         if self.wave % 10 == 0:

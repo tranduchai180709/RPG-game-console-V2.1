@@ -5,11 +5,11 @@ class Monster(Entity):
         super().__init__(name, health, max_health, base_attack, base_defense, crit_rate, crit_damage, dodge_rate, gold)
         self.level = level
         self.exp_drop = exp_drop
-        self.base_attack = base_attack + self.level * 2
-        self.max_health = health + self.level * 5
+        self.base_attack = base_attack + (self.level - 1) * 2
+        self.max_health = health + (self.level - 1) * 5
         self.health = self.max_health
-        self.base_defense = base_defense + self.level
-        self.exp_drop = exp_drop + self.level * 20
+        self.base_defense = base_defense + (self.level - 1)
+        self.exp_drop = exp_drop + (self.level - 1) * 20
         self.crit_rate = crit_rate
         self.crit_damage = crit_damage
         self.dodge_rate = dodge_rate
