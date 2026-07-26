@@ -2,6 +2,29 @@ import random
 from monster import Monster
 from data import MONSTER_DATA
 class wave:
+    def to_dict(self):
+        return {
+            "wave": self.wave,
+            "difficulty": self.choice,
+            "monster": {
+            "name" : self.monster.name,
+            "health": self.monster.health,
+            "max_health": self.monster.max_health,
+            "base_attack": self.monster.base_attack,
+            "base_defense": self.monster.base_defense,
+            "exp_drop": self.monster.exp_drop,
+            "level": self.monster.level,
+            "crit_rate": self.monster.crit_rate,
+            "crit_damage": self.monster.crit_damage,
+            "dodge_rate": self.monster.dodge_rate,
+            "lootable": self.monster.lootable,
+            "gold_drop": self.monster.gold,
+            "is_boss": self.is_boss
+            }
+        }
+    @classmethod
+    def from_dict(self):
+        pass
     def __init__(self):
         self.wave = 0
         self.is_boss = False
@@ -9,32 +32,37 @@ class wave:
     def next_wave(self):
         self.wave += 1
         self.choice += self.wave - 5
+        self.choice = max(0, self.choice)
         print(f"========= Wave {self.wave} =========")
-        monster = self.create_monster()
-        return monster
+        self.monster = self.create_monster()
+        return self.monster
     def create_monster(self):
         monster_choice = random.randint(1,100)
-        if 25 + 2 * self.choice < monster_choice:
+        if self.wave > 5:
+            if 25 + 2 * self.choice < monster_choice:
+                data = MONSTER_DATA["3"]
+                monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
+                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            elif 10 + 2 * self.choice < monster_choice < 25 + 2 * self.choice:
+                data = MONSTER_DATA["2"]
+                monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
+                self.choice = max(0, self.wave - 5)
+                self.choice = min(self.choice, 100)
+                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            else:
+                data = MONSTER_DATA["1"]
+                monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
+                self.choice = max(0, self.wave - 10)
+                self.choice = min(self.choice, 100)
+                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            ms = self.scale_monster(monster)
+            return ms
+        elif self.wave < 5:
             data = MONSTER_DATA["3"]
             monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
-            if self.wave >= 5:
-                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
-        elif 10 + 2 * self.choice < monster_choice < 25 + 2 * self.choice:
-            data = MONSTER_DATA["2"]
-            monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
-            self.choice = max(0, self.wave - 5)
-            self.choice = min(self.choice, 100)
-            if self.wave >= 5:
-                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
-        else:
-            data = MONSTER_DATA["1"]
-            monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
-            self.choice = max(0, self.wave - 10)
-            self.choice = min(self.choice, 100)
-            if self.wave >= 5:
-                monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
-        ms = self.scale_monster(monster)
-        return ms
+            monster.level = 1
+            ms = self.scale_monster(monster)
+            return ms
         if self.wave % 10 == 0:
             ms = self.scale_monster_boss(monster)
             return ms

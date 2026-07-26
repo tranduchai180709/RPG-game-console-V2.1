@@ -1,30 +1,24 @@
 class Skill:
-    def to_dict(self):
-        return {
-            SKILLS
-        }
-    @classmethod
-    def from_dict(self):
-        pass
     def menu(self):
         self.menus = {
-            "1": ("Attack"),
+            "1": ("Normal attack"),
             "2": ("Skill")
         }
         for index, choice in self.menus.items():
             print(f"{index}: {choice}")
     def menu_skill(self, player):
-        for index in player.skill:
-            print(f"{index}: {player.skill[index]["name"]}",end=" ")
-            if not player.skill[index]["current_cd"] == 0:
-                print(f"(CD {player.skill[index]["current_cd"]})", end=" ")
+        for index in player.skills:
+            print(f"{index}: {player.skills[index]["name"]}",end=" ")
+            if not player.skills[index]["current_cd"] == 0:
+                print(f"(CD {player.skills[index]["current_cd"]})", end=" ")
             else:
-                if player.skill[index]["attack_multiplier"] > 1:
-                    print(f"x{player.skill[index]["attack_multiplier"]} ATK", end=" ")
-                if player.skill[index]["defense_multiplier"] > 1:
-                    print(f"x{player.skill[index]["defense_multiplier"]} DEF", end=" ")
-                
+                if player.skills[index]["attack_multiplier"] > 1:
+                    print(f"x{player.skills[index]["attack_multiplier"]} ATK", end=" ")
+                if player.skills[index]["defense_multiplier"] > 1:
+                    print(f"x{player.skills[index]["defense_multiplier"]} DEF", end=" ")
             print()
+        print("0 cancel")
+        print()
 SKILLS = {
     "1": {
         "name": "Slash",

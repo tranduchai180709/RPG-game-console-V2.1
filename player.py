@@ -18,7 +18,8 @@ class Player(Entity):
         "crit_rate": self.crit_rate,
         "crit_damage": self.crit_damage,
         "dodge_rate": self.dodge_rate,
-        "gold": self.gold
+        "gold": self.gold,
+        "skills": self.skills
         }
     @classmethod
     def from_dict(cls, data):
@@ -58,7 +59,7 @@ class Player(Entity):
         self.exp = 0
         self.level = 1
         self.max_exp = 50
-        self.skill = {}
+        self.skills = {}
     def level_up(self):
         self.level += 1
 
@@ -78,7 +79,7 @@ class Player(Entity):
             self.crit_damage += 10
 
         if self.level == 2:
-            self.skill.update({1:{
+            self.skills.update({1:{
                 "name": "Slash",
                 "attack_multiplier": 1.2,
                 "defense_multiplier": 1,
@@ -89,7 +90,7 @@ class Player(Entity):
             print("You learned Slash skill")
 
         if self.level == 5:
-            self.skill.update({2:
+            self.skills.update({2:
             {
                 "name": "Heavy Strike",
                 "attack_multiplier": 1.2,

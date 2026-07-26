@@ -49,11 +49,11 @@ class Game:
         else:
             return
     def save_action(self):
-        save_game(self.player, self.inventory)
+        save_game(self.player, self.inventory, self.wave)
     def battle_start(self):
         self.battles.start(self.player, self.monster, 1, 1)
     def load_action(self):
-        self.player, self.inventory = load_game()
+        self.player, self.inventory, self.wave = load_game()
     def status_player(self):
         self.player.status(self.player)
     def attack_skill(self):
@@ -65,15 +65,17 @@ class Game:
         elif choice == "2":
             self.skill.menu_skill(self.player)
             choice = input("> ")
-            skills = SKILLS[choice]
-            for index in self.player.skill:
-                if skills["name"] == self.player.skill[index]["name"]:
-                    if self.player.skill[index]["current_cd"] == 0:
-                        self.player.skill[index]["current_cd"] = skills["cooldown"]
-                        self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"])
-                    else:
-                        print("Skill in cooldown.")
-
+            if not choice == "0":
+                skills = SKILLS[choice]
+                for index in self.player.skills:
+                    if skills["name"] == self.player.skills[index]["name"]:
+                        if self.player.skills[index]["current_cd"] == 0:
+                            self.player.skills[index]["current_cd"] = skills["cooldown"]
+                            self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"])
+                        else:
+                            print("Skill in cooldown.")
+            elif choice == "0":
+                return
     def creative_action(self):
         self.actions = {
         "1": (self.attack_skill),
