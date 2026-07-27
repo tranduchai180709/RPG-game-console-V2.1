@@ -14,13 +14,26 @@ class Game:
     def __init__(self):
         print("===== Welcome to my RPG Game V2.1.1 =====")
         print()
-        self.player = Player(input("Enter your name: "))
+        self.player = Player("player")
         self.inventory = Inventory()
         self.heals = Heal()
         self.loot = loot_system()
         self.shop = shops()
         self.wave = wave()
         self.skill = Skill()
+        self.battles = Battle()
+    def welcome(self):
+        print("1: New Game")
+        print("2: Continue")
+        choice = input("> ")
+        if choice == "2":
+            self.player, self.inventory, self.wave, self.shop = load_game()
+            return self.wave.monster
+        elif choice == "1":
+            self.player = Player(input("Your name: "))
+            return 
+        while choice not in ("2", "1"):
+            choice = input("> ")
     def run_action(self):
         self.player.run()
         self.choice_monster()
@@ -49,11 +62,11 @@ class Game:
         else:
             return
     def save_action(self):
-        save_game(self.player, self.inventory, self.wave)
+        save_game(self.player, self.inventory, self.wave, self.shop)
     def battle_start(self):
-        self.battles.start(self.player, self.monster, 1, 1)
+        self.battles.start(self.player, self.monster, 1, 1, False)
     def load_action(self):
-        self.player, self.inventory, self.wave = load_game()
+        self.player, self.inventory, self.wave, self.shop = load_game()
     def status_player(self):
         self.player.status(self.player)
     def attack_skill(self):
@@ -71,7 +84,7 @@ class Game:
                     if skills["name"] == self.player.skills[index]["name"]:
                         if self.player.skills[index]["current_cd"] == 0:
                             self.player.skills[index]["current_cd"] = skills["cooldown"]
-                            self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"])
+                            self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"], skill=True)
                         else:
                             print("Skill in cooldown.")
             elif choice == "0":
@@ -88,6 +101,7 @@ class Game:
         "8": (self.load_action)
         }
     def Menu(self):
+        self.creative_action()
         self.menu = {
             "1": "Attack",
             "2": "Run",
@@ -100,10 +114,6 @@ class Game:
         }
     def choice_monster(self):
         self.monster = self.wave.next_wave()
-        self.battles = Battle()
-        self.creative_action()
-        self.Menu()
-        self.shop.shop_restock()
     def player_action(self):
         for key, text in self.menu.items():
             print(f"{key}: {text}")
@@ -113,8 +123,14 @@ class Game:
         else:
             print("Invalid action.")
     def start(self):
-        self.choice_monster()
-        self.monster.status(full=False)
+        monster = self.welcome()
+        if not monster:
+            self.choice_monster()
+            self.shop.shop_restock()
+        else:
+            self.monster = monster
+            self.Menu()
+            self.monster.status(full=False)
         while not self.player.is_dead():
             if not self.monster.is_dead():
                 self.player_action()
@@ -126,6 +142,7 @@ class Game:
                 for items in item:
                     self.inventory.inventory_add(items)
                 self.choice_monster()
+                self.shop.shop_restock()
                 self.monster.status(full=False)
         if self.player.is_dead():
             print("GAME OVER!")

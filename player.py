@@ -24,7 +24,6 @@ class Player(Entity):
     @classmethod
     def from_dict(cls, data):
         player = cls(data["name"])
-        print("PLAYER DATA:", data)
         player.health = data["health"]
         player.max_health = data["max_health"]
         player.base_attack = data["base_attack"]
@@ -49,6 +48,7 @@ class Player(Entity):
         player.dodge_rate = data["dodge_rate"]
         player.gold = data["gold"]
         player.dodge_rate = data["dodge_rate"]
+        player.skills = data["skills"]
         return player
         
     def __init__(self, name):
@@ -60,6 +60,10 @@ class Player(Entity):
         self.level = 1
         self.max_exp = 50
         self.skills = {}
+    def cd(self):
+        for i in self.skills:
+            if self.skills[i]["current_cd"] > 0:
+                self.skills[i]["current_cd"] -= 1
     def level_up(self):
         self.level += 1
 

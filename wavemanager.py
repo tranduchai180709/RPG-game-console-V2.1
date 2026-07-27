@@ -4,7 +4,7 @@ from data import MONSTER_DATA
 class wave:
     def to_dict(self):
         return {
-            "wave": self.wave,
+            "Wave": self.wave,
             "difficulty": self.choice,
             "monster": {
             "name" : self.monster.name,
@@ -19,12 +19,17 @@ class wave:
             "dodge_rate": self.monster.dodge_rate,
             "lootable": self.monster.lootable,
             "gold_drop": self.monster.gold,
-            "is_boss": self.is_boss
+            "is_boss": self.is_boss if self.is_boss else None
             }
         }
     @classmethod
-    def from_dict(self):
-        pass
+    def from_dict(cls, data):
+        from data import MONSTER_DATA
+        waves = cls()
+        waves.wave = data["Wave"]
+        waves.choice = data["difficulty"]
+        waves.monster = Monster.from_dict(data["monster"])
+        return waves
     def __init__(self):
         self.wave = 0
         self.is_boss = False
@@ -40,25 +45,25 @@ class wave:
         monster_choice = random.randint(1,100)
         if self.wave > 5:
             if 25 + 2 * self.choice < monster_choice:
-                data = MONSTER_DATA["3"]
+                data = MONSTER_DATA["Slime"]
                 monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
                 monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
             elif 10 + 2 * self.choice < monster_choice < 25 + 2 * self.choice:
-                data = MONSTER_DATA["2"]
+                data = MONSTER_DATA["Goblin"]
                 monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
                 self.choice = max(0, self.wave - 5)
                 self.choice = min(self.choice, 100)
                 monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
             else:
-                data = MONSTER_DATA["1"]
+                data = MONSTER_DATA["Dark knight"]
                 monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
                 self.choice = max(0, self.wave - 10)
                 self.choice = min(self.choice, 100)
                 monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
             ms = self.scale_monster(monster)
             return ms
-        elif self.wave < 5:
-            data = MONSTER_DATA["3"]
+        elif self.wave <= 5:
+            data = MONSTER_DATA["Slime"]
             monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
             monster.level = 1
             ms = self.scale_monster(monster)

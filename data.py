@@ -2,7 +2,7 @@ from items import Items
 from rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
 import random
 MONSTER_DATA = {
-    "1":{
+    "Dark knight":{
         "Name": "Dark knight",
         "health": 100,
         "max health": 100,
@@ -21,7 +21,7 @@ MONSTER_DATA = {
         ],
         "gold": 50
     },
-    "2":{
+    "Goblin":{
         "Name": "Goblin",
         "health": 10,
         "max health": 10,
@@ -39,7 +39,7 @@ MONSTER_DATA = {
         ],
         "gold": 30
     },
-    "3":{
+    "Slime":{
         "Name": "Slime",
         "health": 30,
         "max health": 30,

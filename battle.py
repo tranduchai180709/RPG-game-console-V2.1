@@ -12,7 +12,9 @@ class Battle:
         monster.combat_status()
         self.monster_turn(player, monster, attack_multipler, defense_multipler)
         defense_multipler = 1
-    def start(self, player, monster, attack_multipler, defense_multipler):
+    def start(self, player, monster, attack_multipler, defense_multipler, skill):
+        if not skill == True:
+            player.cd()
         if not player.is_dead() and not monster.is_dead():
             self.player_turn(player, monster, attack_multipler, defense_multipler)
         if monster.is_dead():
