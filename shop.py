@@ -51,6 +51,7 @@ class shops:
                     random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
                 )
             self.loot.roll_rarity(item)
+            item.base_price = random.randint(template.base_price * template.rarity.multipler + int(item.value * item.rarity.multipler) - 20, template.base_price * template.rarity.multipler + int(item.value * item.rarity.multipler) - 20)
             self.stock.append(item)
     def shop_choice(self, player, inventory):
         while True:
