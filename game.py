@@ -22,6 +22,16 @@ class Game:
         self.wave = wave()
         self.skill = Skill()
         self.battles = Battle()
+        self.menu = {
+            "1": "Attack",
+            "2": "Run",
+            "3": "Player status",
+            "4": "Inventory",
+            "5": "Monster status",
+            "6": "Shop",
+            "7": "Save game",
+            "8": "Load game"
+        }
     def welcome(self):
         print("1: New Game")
         print("2: Continue")
@@ -100,18 +110,6 @@ class Game:
         "7": (self.save_action),
         "8": (self.load_action)
         }
-    def Menu(self):
-        self.creative_action()
-        self.menu = {
-            "1": "Attack",
-            "2": "Run",
-            "3": "Player status",
-            "4": "Inventory",
-            "5": "Monster status",
-            "6": "Shop",
-            "7": "Save game",
-            "8": "Load game"
-        }
     def choice_monster(self):
         self.monster = self.wave.next_wave()
     def player_action(self):
@@ -125,12 +123,12 @@ class Game:
     def start(self):
         monster = self.welcome()
         if not monster:
-            self.choice_monster()
+            self.choice_monster()    
             self.shop.shop_restock()
         else:
             self.monster = monster
-            self.Menu()
-            self.monster.status(full=False)
+        self.creative_action()
+        self.monster.status(full=False)
         while not self.player.is_dead():
             if not self.monster.is_dead():
                 self.player_action()
