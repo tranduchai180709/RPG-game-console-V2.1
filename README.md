@@ -24,18 +24,21 @@ A console RPG game written in Python.
 
 ```bash
 sudo pacman -S python-colorama
+sudo pacman -S python-pygame
 ```
 
 ## Ubuntu/Debian
 
 ```bash
 sudo apt install python3-colorama
+sudo apt install python3-pygame
 ```
 
 ## Windows/macOS
 
 ```bash
 python -m pip install colorama
+python -m pip install pygame
 ```
 
 ## Run
