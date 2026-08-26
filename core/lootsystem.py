@@ -1,8 +1,8 @@
 import random
 from colorama import Style, Fore
-from data import ITEM_DATA
-from rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
-from items import Items
+from .data import ITEM_DATA
+from .rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
+from .items import Items
 class loot_system:
     def roll(self, monster):
         list_drop_item = []

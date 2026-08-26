@@ -1,4 +1,4 @@
-from rarity import Rarity, RARITY_DATA
+from .rarity import Rarity, RARITY_DATA
 class Items:
     def to_dict(self):
         return {
@@ -8,7 +8,7 @@ class Items:
         }
     @classmethod
     def from_dict(cls, data):
-        from data import ITEM_DATA
+        from .data import ITEM_DATA
         template = ITEM_DATA[data["name"]]
         item = Items(
             data["name"],

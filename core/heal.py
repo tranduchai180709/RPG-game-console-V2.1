@@ -1,5 +1,5 @@
-from player import Player
-from inventory import Inventory
+from .player import Player
+from .inventory import Inventory
 class Heal:
     def __init__(self):
         self.item_check = Inventory()

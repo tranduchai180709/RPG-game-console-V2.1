@@ -1,4 +1,4 @@
-from entity import Entity
+from .entity import Entity
 class Battle:
     def monster_turn(self, player, monster, attack_multipler, defense_multipler):
         if not monster.is_dead():
@@ -18,5 +18,4 @@ class Battle:
         if not player.is_dead() and not monster.is_dead():
             self.player_turn(player, monster, attack_multipler, defense_multipler)
         if monster.is_dead():
-            print(f"{player.name} killed {monster.name}!")
             player.gain_exp(monster.exp_drop)

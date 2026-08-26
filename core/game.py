@@ -1,19 +1,18 @@
-from battle import Battle
-from player import Player
-from data import MONSTER_DATA
-from data import ITEM_DATA
-from inventory import Inventory
-from monster import Monster
-from heal import Heal
-from lootsystem import loot_system
-from shop import shops
-from saveload import save_game, load_game
-from wavemanager import wave
-from skill import Skill, SKILLS
+from .battle import Battle
+from .player import Player
+from .data import MONSTER_DATA
+from .data import ITEM_DATA
+from .inventory import Inventory
+from .monster import Monster
+from .heal import Heal
+from .lootsystem import loot_system
+from .shop import shops
+from .saveload import save_game, load_game
+from .wavemanager import wave
+from .skill import Skill, SKILLS
 class Game:
-    def __init__(self):
-        print("===== Welcome to my RPG Game V2.1.1 =====")
-        print()
+    def __init__(self, ui):
+        self.ui = ui
         self.player = Player("player")
         self.inventory = Inventory()
         self.heals = Heal()
@@ -22,32 +21,20 @@ class Game:
         self.wave = wave()
         self.skill = Skill()
         self.battles = Battle()
-        self.menu = {
-            "1": "Attack",
-            "2": "Run",
-            "3": "Player status",
-            "4": "Inventory",
-            "5": "Monster status",
-            "6": "Shop",
-            "7": "Save game",
-            "8": "Load game"
-        }
     def welcome(self):
-        print("1: New Game")
-        print("2: Continue")
-        choice = input("> ")
+        choice = self.ui.welcome()
         if choice == "2":
             self.player, self.inventory, self.wave, self.shop = load_game()
             return self.wave.monster
         elif choice == "1":
-            self.player = Player(input("Your name: "))
+            self.player.name = self.ui.get_player_name()
             return 
         while choice not in ("2", "1"):
-            choice = input("> ")
+            choice = self.ui.welcome()
     def run_action(self):
         self.player.run()
         self.choice_monster()
-        self.monster.status(full=False)
+        self.ui.show_monster_combat_status(self.monster)
     def inventory_open(self):
         if self.inventory.inventory_show(self.player):
             item = self.inventory.inventory_choice()
@@ -78,7 +65,9 @@ class Game:
     def load_action(self):
         self.player, self.inventory, self.wave, self.shop = load_game()
     def status_player(self):
-        self.player.status(self.player)
+        self.ui.show_player_status(self.player)
+    def status_monster(self):
+        self.ui.show_monster_status(self.monster)
     def attack_skill(self):
         self.skill.menu()
         choice = input("> ")
@@ -96,7 +85,7 @@ class Game:
                             self.player.skills[index]["current_cd"] = skills["cooldown"]
                             self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"], skill=True)
                         else:
-                            print("Skill in cooldown.")
+                            self.ui.skill_cd()
             elif choice == "0":
                 return
     def creative_action(self):
@@ -105,7 +94,7 @@ class Game:
         "2": (self.run_action),
         "3": (self.status_player),
         "4": (self.inventory_open),
-        "5": (self.monster.status),
+        "5": (self.status_monster),
         "6": (self.shops),
         "7": (self.save_action),
         "8": (self.load_action)
@@ -113,13 +102,11 @@ class Game:
     def choice_monster(self):
         self.monster = self.wave.next_wave()
     def player_action(self):
-        for key, text in self.menu.items():
-            print(f"{key}: {text}")
-        action = input("> ").lower()
+        action = self.ui.menu_ui()
         if action in self.actions:
             self.actions[action]()
         else:
-            print("Invalid action.")
+            self.ui.action_ui()
     def start(self):
         monster = self.welcome()
         if not monster:
@@ -128,7 +115,7 @@ class Game:
         else:
             self.monster = monster
         self.creative_action()
-        self.monster.status(full=False)
+        self.ui.show_monster_combat_status(self.monster)
         while not self.player.is_dead():
             if not self.monster.is_dead():
                 self.player_action()
@@ -141,6 +128,6 @@ class Game:
                     self.inventory.inventory_add(items)
                 self.choice_monster()
                 self.shop.shop_restock()
-                self.monster.status(full=False)
+                self.ui.show_monster_combat_status(self.monster)
         if self.player.is_dead():
             print("GAME OVER!")

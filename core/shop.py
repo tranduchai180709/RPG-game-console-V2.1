@@ -1,8 +1,8 @@
-from data import ITEM_DATA
+from .data import ITEM_DATA
 import random
-from lootsystem import loot_system
+from .lootsystem import loot_system
 from colorama import Fore, Style
-from items import Items
+from .items import Items
 class shops:
     def to_dict(self):
         return{

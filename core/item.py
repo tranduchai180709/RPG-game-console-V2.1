@@ -1,4 +1,4 @@
-from data import ITEM_DATA
+from .data import ITEM_DATA
 import random
 class items:
     def item_ran_value(self, item):

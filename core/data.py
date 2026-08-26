@@ -1,5 +1,5 @@
-from items import Items
-from rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
+from .items import Items
+from .rarity import COMMON,UNCOMMON,RARE,EPIC,LEGENDARY
 import random
 MONSTER_DATA = {
     "Dark knight":{
@@ -45,7 +45,7 @@ MONSTER_DATA = {
         "max health": 30,
         "ATK": 5,
         "DEF": 0,
-        "EXP": 20,
+        "EXP": 200,
         "level": 1,
         "crt rate": 0,
         "crt dmg": 200,

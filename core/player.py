@@ -1,6 +1,6 @@
-from entity import Entity
-from items import Items
-from skill import SKILLS
+from .entity import Entity
+from .items import Items
+from .skill import SKILLS
 class Player(Entity):
     def to_dict(self):
         return {
@@ -91,7 +91,6 @@ class Player(Entity):
                 "current_cd": 0
                 }
                 })
-            print("You learned Slash skill")
 
         if self.level == 5:
             self.skills.update({2:
@@ -104,37 +103,31 @@ class Player(Entity):
                 
             }
             })
-            print("You learned Heavy Strike skill")
         self.exp -= self.max_exp
         self.max_exp += self.level * 10 + 50
         self.gold += 10
-        print(f"Level up! Now level {self.level}")
+    def get_level(self):
+        return self.level
     def gain_exp(self, drop_exp):
         self.exp += drop_exp
         while (self.exp >= self.max_exp):
             self.level_up()
-    def status(self, player):
-        print("-----------------------------------")
-        print(f"===== Player {player.name} =====")
-        print(f"Level   : {player.level}")
-        print()
-        player.health_bar()
-        if player.weapon:
-            print(f"ATK     : {player.attack} ({player.attack - player.weapon.value} + {player.weapon.value})")
-        else:
-            print(f"ATK     : {player.attack}")
-        if player.armor:
-            print(f"DEF     : {player.defense} ({player.defense - player.armor.value} + {player.armor.value})")
-        else:
-            print(f"DEF     : {player.defense}")
-        print()
-        print(f"Crit    : {player.crit_rate}%")
-        print(f"Crit DMG: {player.crit_damage}%")
-        print(f"Dodge   : {player.dodge_rate}%")
-        print()
-        print(f"EXP     : {player.exp} / {player.max_exp}")
-        print("-----------------------------------")
-        
+    def get_status(self):
+        return {
+            "name": self.name,
+            "level": self.level,
+            "ATK": self.attack,
+            "weapon": self.weapon.value if self.weapon else None,
+            "armor": self.armor.value if self.armor else None,
+            "DEF": self.defense,
+            "crit": self.crit_rate,
+            "crit_DMG": self.crit_damage,
+            "dodge": self.dodge_rate,
+            "exp": self.exp,
+            "max_exp": self.max_exp,
+            "health": self.health,
+            "max_health": self.max_health
+        }
     @property
     def attack(self):
         atk = self.base_attack

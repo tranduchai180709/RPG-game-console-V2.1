@@ -1,5 +1,5 @@
 from colorama import Fore, Style
-from items import Items
+from .items import Items
 class Inventory:
     def to_dict(self):
         return{

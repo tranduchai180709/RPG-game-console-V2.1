@@ -1,6 +1,6 @@
 import random
-from monster import Monster
-from data import MONSTER_DATA
+from .monster import Monster
+from .data import MONSTER_DATA
 class wave:
     def to_dict(self):
         return {
@@ -24,7 +24,7 @@ class wave:
         }
     @classmethod
     def from_dict(cls, data):
-        from data import MONSTER_DATA
+        from .data import MONSTER_DATA
         waves = cls()
         waves.wave = data["Wave"]
         waves.choice = data["difficulty"]

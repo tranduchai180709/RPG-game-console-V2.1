@@ -1,8 +1,8 @@
 import json
-from player import Player
-from inventory import Inventory
-from wavemanager import wave
-from shop import shops
+from .player import Player
+from .inventory import Inventory
+from .wavemanager import wave
+from .shop import shops
 SAVE_FILE = "save.json"
 def save_game(player, inventory, wave, shop):
     save_data = {

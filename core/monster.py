@@ -1,9 +1,9 @@
-from entity import Entity
+from .entity import Entity
 import random
 class Monster(Entity):
     @classmethod
     def from_dict(cls, data):
-        from data import MONSTER_DATA
+        from .data import MONSTER_DATA
         template = MONSTER_DATA[data["name"]]
         monster = Monster(
             template["Name"],
@@ -46,25 +46,18 @@ class Monster(Entity):
         self.dodge_rate = dodge_rate
         self.lootable = lootable
         self.gold = gold + (self.level - 1) * 10
-    def status(self, full=True):
-        print("-----------------------------------")
-        print(f"===== {self.name} =====")
-        if(full == True):
-            print(f"Level   : {self.level}")
-            print()
-            self.health_bar()
-            print(f"ATK     : {self.attack}")
-            print(f"DEF     : {self.defense}")
-            print()
-            print(f"Crit    : {self.crit_rate}%")
-            print(f"Crit DMG: {self.crit_damage}%")
-            print(f"Dodge   : {self.dodge_rate}%")
-        else:
-            print(f"Level   : {self.level}")
-            print()
-            self.health_bar()
-            print(f"ATK     : {self.attack}")
-            print(f"DEF     : {self.defense}")
-        print("-----------------------------------")
+    def get_status(self):
+        return {
+            "name": self.name,
+            "level": self.level,
+            "ATK": self.base_attack,
+            "DEF": self.base_defense,
+            "crit": self.crit_rate,
+            "crit_DMG": self.crit_damage,
+            "dodge": self.dodge_rate,
+            "exp": self.exp_drop,
+            "health": self.health,
+            "max_health": self.max_health
+        }
     def drop_gold(self):
         return random.randint(self.gold - 5, self.gold + 5 )
