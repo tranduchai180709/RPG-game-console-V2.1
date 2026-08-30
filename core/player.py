@@ -105,7 +105,7 @@ class Player(Entity):
             })
         self.exp -= self.max_exp
         self.max_exp += self.level * 10 + 50
-        self.gold += 10
+        self.gold += 100
     def get_level(self):
         return self.level
     def gain_exp(self, drop_exp):
@@ -117,9 +117,11 @@ class Player(Entity):
             "name": self.name,
             "level": self.level,
             "ATK": self.attack,
+            "base_attack": self.base_attack,
             "weapon": self.weapon.value if self.weapon else None,
             "armor": self.armor.value if self.armor else None,
             "DEF": self.defense,
+            "base_defense": self.base_defense,
             "crit": self.crit_rate,
             "crit_DMG": self.crit_damage,
             "dodge": self.dodge_rate,
@@ -143,57 +145,66 @@ class Player(Entity):
 
     def equip(self, item):
         if item.item_type == "Sword":
-            self.equip_sword(item)
+            return self.equip_sword(item)
         elif item.item_type == "Armor":
-            self.equip_armor(item)
+            return self.equip_armor(item)
         elif item.item_type == "Accessory":
-            self.equip_accessory(item)
-
-
+            return self.equip_accessory(item)
+    def unequip(self, item):
+        if item.item_type == "Sword":
+            return self.unequip_sword()
+        elif item.item_type == "Armor":
+            return self.unequip_armor()
+        elif item.item_type == "Accessory":
+            return self.uquip_accessory()
+    def get_equipment(self):
+        return {
+            "weapon": self.weapon if self.weapon else None,
+            "armor": self.armor if self.armor else None,
+            "accessory": self.accessory if self.accessory else None
+        }
     def equip_sword(self, item):
         if self.weapon is item:
-            print(f"{self.name} is already using {item.name}")
             return
 
         self.unequip_sword()
         self.weapon = item
-        print(f"{self.name} equipped {item.name}")
+        return item
 
     def equip_armor(self, item):
         if self.armor is item:
-            print(f"{self.name} is already wearing {item.name}")
             return
 
         self.unequip_armor()
         self.armor = item
-        print(f"{self.name} equipped {item.name}")
+        return item
 
     def equip_accessory(self, item):
         if self.accessory is item:
-            print(f"{self.name} is already using {item.name}")
+            return
         self.unequip_accessory()
         self.accessory = item
-        print(f"{self.name} equipped {item.name}")
-        print()
+        return item
 
     def unequip_sword(self):
         if self.weapon:
-            print(f"{self.name} Unequipped {self.weapon.name}")
+            old_weapon = self.weapon
             self.weapon = None
-            print()
+            return old_weapon
+        return
 
     def unequip_armor(self):
         if self.armor:
-            print(f"{self.name} Unequipped {self.armor.name}")
+            old_armor = self.armor
             self.armor = None
-            print()
-
+            return old_armor
+        return
     def unequip_accessory(self):
         if self.accessory:
-            print(f"{self.name} Unequipped {self.accessory.name}")
+            old_accessory = self.accessory
             self.accessory = None
-            print()
-
+            return old_accessory
+        return
 
     def run(self):
         print(f"{self.name} ran away!")

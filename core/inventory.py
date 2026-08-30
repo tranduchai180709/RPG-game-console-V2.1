@@ -1,5 +1,5 @@
-from colorama import Fore, Style
 from .items import Items
+from .data import ITEM_DATA
 class Inventory:
     def to_dict(self):
         return{
@@ -15,63 +15,30 @@ class Inventory:
         for item_data in data["equipment"]:
             item = Items.from_dict(item_data)
             inventory.equipment.append(item)
-        for entry in data["consumables"]:
-            item = Items.from_dict(entry["item"])
-            inventory.stackable_items[item] = entry["count"]
+        for item_name, count in data["consumables"].items():
+            item = ITEM_DATA[item_name]
+            inventory.stackable_items[item] = count
         return inventory
     def __init__(self):
         self.equipment = []
         self.stackable_items = {}
-    def inventory_show(self, player):
+    def get_inventory_item(self):
+        return self.equipment, self.stackable_items
+    def inventory_check(self):
         self.display_item = []
-        if not self.equipment and not self.stackable_items:
-            print(f"Gold: {player.gold:,}")
-            print()
-            print("Your inventory is empty")
-            print()
-            return False
-        print("==== YOUR INVENTORY ====")
-        print()
-        print(f"Gold: {player.gold:,}")
-        print()
-        print("Consumables")
-        print("------------------------")
         self.i = 0
+
+        if not self.equipment and not self.stackable_items:
+            return False
+        
         if self.stackable_items:
             for index, item in enumerate(self.stackable_items, start=1):
                 self.display_item.append(item)
-                print(f"{index}: {item.name} x{self.stackable_items[item]}")
                 self.i += 1
-        else:
-            print("None")
-        print()
-        print("Equipment")
-        print("------------------------")
+        
         if self.equipment:
             for index, item in enumerate(self.equipment, start= self.i + 1):
                 self.display_item.append(item)
-                equipped = "[ ]"
-
-                if player.weapon is item:
-                    equipped = "[W]"
-
-                elif player.armor is item:
-                    equipped = "[A]"
-
-                elif player.accessory is item:
-                    equipped = "[R]"
-                print(
-        f"{equipped}"
-        f"{index:>2}. "
-        f"{item.name:<15} "
-        f"{item.value:+4} "
-        f"{item.rarity.color}[{item.rarity.name}]{Style.RESET_ALL}"
-    )
-        else:
-            print("None")
-        print()
-        print("0: cancel")
-        print()
         return True
     def inventory_add(self, item):
         if item.stackable:
@@ -93,8 +60,7 @@ class Inventory:
                 del self.stackable_items[item]
         else:
             self.equipment.remove(item)
-    def inventory_choice(self):
-        choice = int(input("> ")) - 1
+    def inventory_choice(self, choice):
         if 0 <= choice < len(self.display_item):
             return self.display_item[choice]
         elif choice == -1:

@@ -36,16 +36,18 @@ class Game:
         self.choice_monster()
         self.ui.show_monster_combat_status(self.monster)
     def inventory_open(self):
-        if self.inventory.inventory_show(self.player):
-            item = self.inventory.inventory_choice()
+        self.ui.show_player_inventory(self.inventory, self.player)
+        if self.inventory.inventory_check():
+            choice = self.ui.choice_inventory_ui()
+            item = self.inventory.inventory_choice(choice)
             if item:
                 self.use_item(item)
     def use_item(self, item):
         if item.item_type == "Sword":
-            self.player.equip_sword(item)
+            self.ui.player_equip(self.player, item)
 
         elif item.item_type == "Armor":
-            self.player.equip_armor(item)
+            self.ui.player_equip(self.player, item)
 
         elif item.item_type == "heal":
             if self.heals.heal(self.player, item):
@@ -130,4 +132,4 @@ class Game:
                 self.shop.shop_restock()
                 self.ui.show_monster_combat_status(self.monster)
         if self.player.is_dead():
-            print("GAME OVER!")
+            self.ui.game_over()
