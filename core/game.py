@@ -51,12 +51,25 @@ class Game:
             self.ui.player_equip(self.player, item)
             self.player.equip(item)
     def shops(self):
-        shop_item = self.shop.shop_choice(self.player,self.inventory)
-        if shop_item:
-            self.inventory.inventory_add(shop_item)
-            self.shops()
-        else:
-            return
+        choice = self.ui.shop_choice()
+        print(choice)
+        if choice == "1":
+            choices = self.ui.shop_menu(self.shop, self.player)
+            item = self.shop.shop_choice_buy(self.player, self.inventory, choices)
+            if item:
+                self.inventory.inventory_add(item)
+            self.ui.shop_choice_buy(item)
+        if choice == "2":
+            if self.inventory.inventory_check():
+                self.ui.show_player_inventory(self.inventory, self.player)
+                item_choice = self.ui.choice_inventory_ui()
+                item = self.inventory.inventory_choice(item_choice)
+                choices = self.ui.shop_choice_sell(item)
+                price = self.shop.shop_choice_sell(item, choices, self.player, self.inventory)
+                if price:
+                    self.ui.shop_choice_sell_yes(item, self.player.gold)
+                else:
+                    self.ui.shop_choice_sell_no()
     def save_action(self):
         save_game(self.player, self.inventory, self.wave, self.shop)
     def battle_start(self):

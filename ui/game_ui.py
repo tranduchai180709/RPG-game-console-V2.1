@@ -3,6 +3,7 @@ from .monster_ui import MonsterUI
 from .inventory_ui import InventoryUI
 from .battle_ui import BattleUI
 from .lootsystem_ui import LootsystemUI
+from .shop_ui import ShopUI
 class Game_ui:
     def __init__(self):
         self.player_ui = PlayerUI()
@@ -10,6 +11,7 @@ class Game_ui:
         self.inventory_ui = InventoryUI()
         self.battle_ui = BattleUI()
         self.lootsystem_ui = LootsystemUI()
+        self.shop_ui = ShopUI()
         self.menu = {
             "1": "Attack",
             "2": "Run",
@@ -58,3 +60,17 @@ class Game_ui:
         self.battle_ui.combat_status(name)
     def loot_ui(self, gold, exp, item):
         self.lootsystem_ui.loot_ui(gold, exp, item)
+    def shop_menu(self, shop, player):
+        return self.shop_ui.shop_menu(shop, player)
+    def shop_choice(self):
+        return self.shop_ui.shop_choice()
+    def shop_sold_out(self):
+        return self.shop_ui.sold_out()
+    def shop_choice_buy(self, item):
+        self.shop_ui.choice_buy(item)
+    def shop_choice_sell(self, item):
+        return self.shop_ui.choice_sell(item)
+    def shop_choice_sell_yes(self, item, gold):
+        self.shop_ui.choice_sell_yes(item, gold)
+    def shop_choice_sell_no(self):
+        self.shop_ui.choice_sell_no()

@@ -18,19 +18,6 @@ class shops:
         return shop
     def __init__(self):
         self.loot = loot_system()
-    def shop_menu(self, player):
-        print("====== BLACKSMITH =====")
-        print()
-        print(f"{player.gold:,} G")
-        print()
-        for i, item in enumerate(self.stock, start=1):
-            if item.stackable == True:
-                print(f"{i}: {item.name} {item.base_price} G")
-            else:
-                print(f"{i}: {item.name} +{item.value} {item.rarity.color}[{item.rarity.name}] {Style.RESET_ALL} {item.base_price} G")
-        print()
-        print("0: Exit")
-        print()
     def shop_restock(self):
         equipment = [
     "Iron Armor",
@@ -54,68 +41,20 @@ class shops:
             self.loot.roll_rarity(item)
             item.base_price = random.randint(template.base_price * template.rarity.multipler + int(item.value * item.rarity.multipler) - 20, template.base_price * template.rarity.multipler + int(item.value * item.rarity.multipler) - 20)
             self.stock.append(item)
-    def shop_choice(self, player, inventory):
-        while True:
-            print("1: Buy")
-            print("2: Sell")
-            print("0: Exit")
-            print()
-            player_choice = input("> ")
-            if(player_choice == "1"):
-                if self.stock:
-                    self.shop_menu(player)
-                else:
-                    print("The shop is sold out.")
-                    print()
-                    print("0: Exit")
-                    print()
-                choice = int(input("> "))
-                if choice == 0:
-                    return    
-                elif choice == -1:
-                    self.shop_choice(player)
-                elif choice not in [1, 2, 3]:
-                    print("Invaild command")
-                    continue
-                item = self.stock[choice - 1]
-                if (player.gold >= item.base_price):
-                    player.gold -= item.base_price
-                    print()
-                    print(f"You bought {item.name}.")
-                    self.stock.remove(item)
-                    print()
-                    return item
-                else:
-                    print()
-                    print(f"you dont have enough gold for {item.name}")
-                    print()
-                    return None            
-            elif(player_choice == "2"):
-                if inventory.inventory_show(player):
-                    inv_item = inventory.inventory_choice()
-                    if inv_item:
-                        item_price = int(inv_item.base_price * 0.7)
-                        print(f"Sell {inv_item.name} for {item_price} G?")
-                        print("1:Yes")
-                        print("2:No")
-                        print()
-                        choice = input("> ")
-                        while choice not in ["1", "2"]:
-                            print("Invaild command")
-                            choice = input("> ")
-                        if choice == "1":
-                            print()
-                            player.gold += item_price
-                            print(f"Sold {inv_item.name}")
-                            print(f"+{item_price} G")
-                            print(f"Gold: {player.gold}")
-                            print()
-                            inventory.inventory_remove(inv_item)
-                        else:
-                            return
-            elif(player_choice == "0"):
-                return None
+    def get_items(self):
+        return self.stock
+    def shop_choice_buy(self, player, inventory, choice):
+            item = self.stock[choice - 1]
+            if (player.gold >= item.base_price):
+                player.gold -= item.base_price
+                self.stock.remove(item)
+                return item
             else:
-                print("Invaild command")
-                print()
-                self.shop_choice(player,inventory)
+                return None
+    def shop_choice_sell(self, item, choice, player, inventory):
+        item_price = int(item.base_price * 0.7)
+        if choice == "1":
+            inventory.inventory_remove(item)
+            player.gold += item_price
+            return item_price
+        return None
