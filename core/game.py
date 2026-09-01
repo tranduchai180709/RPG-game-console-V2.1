@@ -43,16 +43,13 @@ class Game:
             if item:
                 self.use_item(item)
     def use_item(self, item):
-        if item.item_type == "Sword":
-            self.ui.player_equip(self.player, item)
-
-        elif item.item_type == "Armor":
-            self.ui.player_equip(self.player, item)
-
-        elif item.item_type == "heal":
+        if item.item_type == "heal":
             if self.heals.heal(self.player, item):
                 self.inventory.inventory_remove(item)
-                self.battles.monster_turn(self.player, self.monster)
+                self.battles.monster_turn(self.player, self.monster, 1, 1)
+        else:
+            self.ui.player_equip(self.player, item)
+            self.player.equip(item)
     def shops(self):
         shop_item = self.shop.shop_choice(self.player,self.inventory)
         if shop_item:
@@ -63,7 +60,15 @@ class Game:
     def save_action(self):
         save_game(self.player, self.inventory, self.wave, self.shop)
     def battle_start(self):
-        self.battles.start(self.player, self.monster, 1, 1, False)
+        name, damage, target, crit = self.battles.player_turn(self.player, self.monster, 1, 1, skill=False)
+        self.ui.attack_ui(name, damage, target, crit)
+        self.ui.combat_status(target)
+        if not self.monster.is_dead():
+            name, damage, target, crit = self.battles.monster_turn(self.player, self.monster, 1, 1)
+            self.ui.attack_ui(name, damage, target, crit)
+            self.ui.combat_status(target)
+        else:
+            self.player.gain_exp(self.monster.exp_drop)
     def load_action(self):
         self.player, self.inventory, self.wave, self.shop = load_game()
     def status_player(self):
@@ -85,7 +90,12 @@ class Game:
                     if skills["name"] == self.player.skills[index]["name"]:
                         if self.player.skills[index]["current_cd"] == 0:
                             self.player.skills[index]["current_cd"] = skills["cooldown"]
-                            self.battles.start(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"], skill=True)
+                            
+                            name, damage, target, crit = self.battles.player_turn(self.player, self.monster, skills["attack_multiplier"], skills["defense_multiplier"], skill=True)
+                            self.ui.attack_ui(name, damage, target, crit)
+                            
+                            name, damage, target, crit = self.battles.monster_turn(self.player, self.monster, 1, 1)
+                            self.ui.attack_ui(name, damage, target, crit)
                         else:
                             self.ui.skill_cd()
             elif choice == "0":
@@ -123,11 +133,14 @@ class Game:
                 self.player_action()
             elif self.monster.is_dead():
                 self.heals.heal(self.player, ITEM_DATA["Heal"])
+                self.ui.combat_status(self.player)
                 gold = self.monster.drop_gold()
                 self.player.add_gold(gold)
-                item = self.loot.roll(self.monster)
+                gold, exp, item = self.loot.roll(self.monster)
+                self.ui.loot_ui(gold, exp, item)
                 for items in item:
-                    self.inventory.inventory_add(items)
+                    item_loot, amount = self.inventory.inventory_add(items)
+                    self.ui.inventory_addUI(item_loot, amount)
                 self.choice_monster()
                 self.shop.shop_restock()
                 self.ui.show_monster_combat_status(self.monster)

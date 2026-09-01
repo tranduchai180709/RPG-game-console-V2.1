@@ -35,7 +35,8 @@ class shops:
         equipment = [
     "Iron Armor",
     "Iron Sword",
-    "Steel Sword"
+    "Steel Sword",
+    "Health Ring"
 ]
         self.stock = []
         self.stock.append(ITEM_DATA["Heal"])

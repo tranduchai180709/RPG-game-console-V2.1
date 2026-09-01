@@ -11,13 +11,11 @@ class Heal:
         elif item.value <= player.max_health - player.health:
             player.health += item.value
             print(f"{player.name} healed {item.value} hp")
-            player.combat_status()
             print()
         elif item.value > player.max_health - player.health:
             heal_hp = item.value
             heal_hp = player.max_health - player.health
             player.health = player.max_health
             print(f"{player.name} healed {heal_hp} hp")
-            player.combat_status()
             print()
         return True

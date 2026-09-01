@@ -25,18 +25,19 @@ class Entity:
         if random.randint(1,100) <= self.crit_rate:
             damage = damage * self.crit_damage / 100
             damage = max(1, damage - target.defense * defense_multipler)
-            print("Critical!!!")
-            print(f"{self.name} dealt {round(min(damage, target.health), 0)} to {target.name}")
+            damage = round(min(damage, target.health))
             target.take_damage(damage)
+            return self.name, damage, target, True
+
         elif random.randint(1,100) <= self.dodge_rate:
             damage = 0
-            print(f"{self.name} attacked! ")
-            print()
-            print(f"{target.name} Dodged the attack!")
+            return self.name, damage, target, False
+
         else:
             damage = max(1, damage - target.defense)
-            print(f"{self.name} dealt {round(min(damage, target.health), 0)} to {target.name}")
+            damage = round(min(damage, target.health))
             target.take_damage(damage)
+            return self.name, damage, target, False
         print()
     def take_damage(self, damage):
         self.health -= damage
@@ -51,7 +52,3 @@ class Entity:
         bar = "█" * filled + "-" * empty
 
         print(f"HP: [{bar}] {round(max(0,self.health))} / {self.max_health}")
-    def combat_status(self):
-        print(f"===== {self.name} =====")
-        self.health_bar()
-        print("-------------------------")

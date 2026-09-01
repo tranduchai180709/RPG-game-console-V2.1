@@ -51,3 +51,9 @@ class InventoryUI:
         print()
     def inventory_choice_ui(self):
         return int(input("> ")) - 1
+    def inventory_add_ui(self, item, amount):
+        if not amount:
+            amount = 1    
+        if item:
+            print(f"{item} amount: {amount}")
+            print()

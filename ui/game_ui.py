@@ -1,11 +1,15 @@
 from .player_ui import PlayerUI
 from .monster_ui import MonsterUI
 from .inventory_ui import InventoryUI
+from .battle_ui import BattleUI
+from .lootsystem_ui import LootsystemUI
 class Game_ui:
     def __init__(self):
         self.player_ui = PlayerUI()
         self.monster_ui = MonsterUI()
         self.inventory_ui = InventoryUI()
+        self.battle_ui = BattleUI()
+        self.lootsystem_ui = LootsystemUI()
         self.menu = {
             "1": "Attack",
             "2": "Run",
@@ -46,3 +50,11 @@ class Game_ui:
         self.player_ui.equip_ui(player, item)
     def player_unequip(self, player, item):
         self.player_ui.unequip_ui(player, item)
+    def inventory_addUI(self, item, amount):
+        self.inventory_ui.inventory_add_ui(item, amount)
+    def attack_ui(self, name, damage, target, crit):
+        self.battle_ui.attack(name, damage, target, crit)
+    def combat_status(self, name):
+        self.battle_ui.combat_status(name)
+    def loot_ui(self, gold, exp, item):
+        self.lootsystem_ui.loot_ui(gold, exp, item)

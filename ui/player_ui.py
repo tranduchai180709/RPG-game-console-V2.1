@@ -26,17 +26,13 @@ class PlayerUI:
         print(f"Your level: {data}")
 
     def equip_ui(self, player, item):
-        data = player.equip(item)
-        old_data = player.get_equipment()
-        for items in old_data.items():
-            print(items)
-            if items == data:
-                self.unequip_ui(player, old_data)
+        data = player.get_equipment()
         if data:
+            for index, items in data.items():
+                if items:
+                    if items.item_type == item.item_type:
+                        self.unequip_ui(player, items)
             print(f"{player.name} equipped {item.name}")
-        else:
-            print(f"{player.name} already equipped this item")
     def unequip_ui(self, player, item):
-        data = player.unequip(item)
-        if data:
-            print(f"{player.name} Unequipped {data.name}")
+        print(f"{player.name} Unequipped {item.name}")
+        print()

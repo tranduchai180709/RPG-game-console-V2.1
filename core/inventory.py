@@ -45,14 +45,12 @@ class Inventory:
             for old_item in self.stackable_items:
                 if old_item.name == item.name:
                     self.stackable_items[old_item] += 1
-                    print(f"{old_item.name} amount: {self.stackable_items[old_item]}")
-                    print()
-                    return
+                    return old_item.name, self.stackable_items[old_item]
             self.stackable_items[item] = 1
-            print(f"{item.name} amount: 1")
-            print()
+            return item.name, None
         else:
             self.equipment.append(item) 
+            return None, None
     def inventory_remove(self, item):
         if item.stackable:
             self.stackable_items[item] -= 1
