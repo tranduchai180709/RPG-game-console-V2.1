@@ -205,9 +205,5 @@ class Player(Entity):
             self.accessory = None
             return old_accessory
         return
-
-    def run(self):
-        print(f"{self.name} ran away!")
-        return True
     def add_gold(self,golds):
         self.gold += golds

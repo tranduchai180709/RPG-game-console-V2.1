@@ -2,7 +2,7 @@ class MonsterUI:
     def show_status(self, monster):
         data = monster.get_status()
         print("-----------------------------------")
-        print(f'===== Player {data['name']} =====')
+        print(f'===== {data['name']} =====')
         print(f'Health  : {data['health']} / {data['max_health']}')
         print(f'Level   : {data['level']}')
         print()
@@ -17,7 +17,7 @@ class MonsterUI:
     def combat_status(self, monster):
         data = monster.get_status()
         print("-----------------------------------")
-        print(f'===== Monster {data['name']} =====')
+        print(f'===== {data['name']} =====')
         print(f'Health  : {data['health']} / {data['max_health']}')
         print(f'Level   : {data['level']}')
         print()

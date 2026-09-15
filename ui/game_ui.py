@@ -4,6 +4,7 @@ from .inventory_ui import InventoryUI
 from .battle_ui import BattleUI
 from .lootsystem_ui import LootsystemUI
 from .shop_ui import ShopUI
+from .wave_ui import WaveUI
 class Game_ui:
     def __init__(self):
         self.player_ui = PlayerUI()
@@ -12,15 +13,15 @@ class Game_ui:
         self.battle_ui = BattleUI()
         self.lootsystem_ui = LootsystemUI()
         self.shop_ui = ShopUI()
+        self.wave_ui = WaveUI()
         self.menu = {
             "1": "Attack",
-            "2": "Run",
-            "3": "Player status",
-            "4": "Inventory",
-            "5": "Monster status",
-            "6": "Shop",
-            "7": "Save game",
-            "8": "Load game"
+            "2": "Player status",
+            "3": "Inventory",
+            "4": "Monster status",
+            "5": "Shop",
+            "6": "Save game",
+            "7": "Load game"
         }
     def show_player_status(self, player):
         self.player_ui.show_status(player)
@@ -74,3 +75,5 @@ class Game_ui:
         self.shop_ui.choice_sell_yes(item, gold)
     def shop_choice_sell_no(self):
         self.shop_ui.choice_sell_no()
+    def next_wave(self, wave):
+        self.wave_ui.next_wave(wave)

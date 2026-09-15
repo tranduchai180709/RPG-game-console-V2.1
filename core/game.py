@@ -33,7 +33,7 @@ class Game:
             choice = self.ui.welcome()
     def run_action(self):
         self.player.run()
-        self.choice_monster()
+        self.next_wave()
         self.ui.show_monster_combat_status(self.monster)
     def inventory_open(self):
         self.ui.show_player_inventory(self.inventory, self.player)
@@ -124,8 +124,9 @@ class Game:
         "7": (self.save_action),
         "8": (self.load_action)
         }
-    def choice_monster(self):
-        self.monster = self.wave.next_wave()
+    def next_wave(self):
+        wave, self.monster = self.wave.next_wave()
+        self.ui.next_wave(wave)
     def player_action(self):
         action = self.ui.menu_ui()
         if action in self.actions:
@@ -135,7 +136,7 @@ class Game:
     def start(self):
         monster = self.welcome()
         if not monster:
-            self.choice_monster()    
+            self.next_wave()    
             self.shop.shop_restock()
         else:
             self.monster = monster
@@ -154,7 +155,7 @@ class Game:
                 for items in item:
                     item_loot, amount = self.inventory.inventory_add(items)
                     self.ui.inventory_addUI(item_loot, amount)
-                self.choice_monster()
+                self.next_wave()
                 self.shop.shop_restock()
                 self.ui.show_monster_combat_status(self.monster)
         if self.player.is_dead():

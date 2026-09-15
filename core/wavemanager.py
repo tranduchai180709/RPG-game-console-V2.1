@@ -38,9 +38,8 @@ class wave:
         self.wave += 1
         self.choice += self.wave - 5
         self.choice = max(0, self.choice)
-        print(f"========= Wave {self.wave} =========")
         self.monster = self.create_monster()
-        return self.monster
+        return self.wave, self.monster
     def create_monster(self):
         monster_choice = random.randint(1,100)
         if self.wave > 5:
