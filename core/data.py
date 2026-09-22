@@ -8,7 +8,7 @@ MONSTER_DATA = {
         "max health": 100,
         "ATK": 10,
         "DEF": 5,
-        "EXP": 50,
+        "EXP": 100,
         "level": 1,
         "crt rate": 0,
         "crt dmg": 200,
@@ -27,7 +27,7 @@ MONSTER_DATA = {
         "max health": 10,
         "ATK": 20,
         "DEF": 1,
-        "EXP": 30 ,
+        "EXP": 50 ,
         "level": 1,
         "crt rate": 0,
         "crt dmg": 200,
@@ -45,7 +45,7 @@ MONSTER_DATA = {
         "max health": 30,
         "ATK": 5,
         "DEF": 0,
-        "EXP": 200,
+        "EXP": 20,
         "level": 1,
         "crt rate": 0,
         "crt dmg": 200,
@@ -66,13 +66,3 @@ ITEM_DATA = {
     "Steel Sword": Items("Steel Sword", "Sword", 10, False, COMMON, 150),
     "Health Ring": Items("Health Ring", "Accessory", 10, False, COMMON, 90)
 }
-class Menu:
-    def __init__(self):
-        self.menus = {
-            "1": "attack",
-            "2": "run",
-            "3": "player_status",
-            "4": "inventory",
-            "5": "heal",
-            "6": "monster_status",
-        }

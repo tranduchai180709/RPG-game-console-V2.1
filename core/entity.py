@@ -14,41 +14,34 @@ class Entity:
         return self.health <= 0
     @property
     def attack(self):
-        atk = self.base_attack
         return self.base_attack
     @property
     def defense(self):
-        defense = self.base_defense
         return self.base_defense
     def attack_target(self, target, attack_multipler, defense_multipler):
-        damage = random.randint(int(self.attack * attack_multipler) - 4,int(self.attack *attack_multipler) + 4)
-        if random.randint(1,100) <= self.crit_rate:
+        base_damage = random.randint(
+            int(self.attack * attack_multipler) - 4,
+            int(self.attack * attack_multipler) + 4
+        )
+        is_crit = random.randint(1, 100) <= self.crit_rate
+        is_dodge = (not is_crit) and random.randint(1, 100) <= self.dodge_rate
+
+        if is_dodge:
+            return self.name, 0, target, False
+
+        damage = base_damage
+        if is_crit:
             damage = damage * self.crit_damage / 100
-            damage = max(1, damage - target.defense * defense_multipler)
-            damage = round(min(damage, target.health))
-            target.take_damage(damage)
-            return self.name, damage, target, True
-
-        elif random.randint(1,100) <= self.dodge_rate:
-            damage = 0
-            return self.name, damage, target, False
-
-        else:
-            damage = max(1, damage - target.defense)
-            damage = round(min(damage, target.health))
-            target.take_damage(damage)
-            return self.name, damage, target, False
-        print()
+        damage = max(1, damage - target.defense * defense_multipler)
+        damage = round(min(damage, target.health))
+        target.take_damage(damage)
+        return self.name, damage, target, is_crit
     def take_damage(self, damage):
         self.health -= damage
-    def health_bar(self):
-        length = 20
+    def health_bar_data(self, length=20):
         if self.health <= 0:
             filled = 0
         else:
-            filled = max(1,int(self.health / self.max_health * length))
+            filled = max(1, int(self.health / self.max_health * length))
         empty = length - filled
-
-        bar = "█" * filled + "-" * empty
-
-        print(f"HP: [{bar}] {round(max(0,self.health))} / {self.max_health}")
+        return filled, empty, round(max(0, self.health)), self.max_health

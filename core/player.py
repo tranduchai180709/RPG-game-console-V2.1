@@ -96,7 +96,7 @@ class Player(Entity):
             self.skills.update({2:
             {
                 "name": "Heavy Strike",
-                "attack_multiplier": 1.2,
+                "attack_multiplier": 1.5,
                 "defense_multiplier": 1,
                 "cooldown": 2,
                 "current_cd": 0
@@ -156,7 +156,7 @@ class Player(Entity):
         elif item.item_type == "Armor":
             return self.unequip_armor()
         elif item.item_type == "Accessory":
-            return self.uquip_accessory()
+            return self.unequip_accessory()
     def get_equipment(self):
         return {
             "weapon": self.weapon if self.weapon else None,

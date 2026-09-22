@@ -36,7 +36,7 @@ class shops:
                     template.value,
                     template.stackable,
                     template.rarity,
-                    random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
+                    random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler + 20) 
                 )
             self.loot.roll_rarity(item)
             item.base_price = random.randint(template.base_price * template.rarity.multipler + int(item.value * item.rarity.multipler) - 20, template.base_price * template.rarity.multipler + int(item.value * item.rarity.multipler) - 20)
@@ -44,6 +44,7 @@ class shops:
     def get_items(self):
         return self.stock
     def shop_choice_buy(self, player, inventory, choice):
+        if choice != 0:    
             item = self.stock[choice - 1]
             if (player.gold >= item.base_price):
                 player.gold -= item.base_price
@@ -51,6 +52,8 @@ class shops:
                 return item
             else:
                 return None
+        else:
+            return None
     def shop_choice_sell(self, item, choice, player, inventory):
         item_price = int(item.base_price * 0.7)
         if choice == "1":

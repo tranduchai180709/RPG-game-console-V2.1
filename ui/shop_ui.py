@@ -6,11 +6,14 @@ class ShopUI:
         print()
         print(f"{player.gold:,} G")
         print()
-        for i, item in enumerate(data, start=1):
-            if item.stackable == True:
-                print(f"{i}: {item.name} {item.base_price} G")
-            else:
-                print(f"{i}: {item.name} +{item.value} {item.rarity.color}[{item.rarity.name}] {Style.RESET_ALL} {item.base_price} G")
+        if data:
+            for i, item in enumerate(data, start=1):
+                if item.stackable == True:
+                    print(f"{i}: {item.name} {item.base_price} G")
+                else:
+                    print(f"{i}: {item.name} +{item.value} {item.rarity.color}[{item.rarity.name}] {Style.RESET_ALL} {item.base_price} G")
+        else:
+            print("The shop is sold out.")
         print()
         print("0: Exit")
         print()
@@ -21,14 +24,6 @@ class ShopUI:
         print("0: Exit")
         print()
         return input("> ")
-    def sold_out(self, shop):
-        data = shop.get_items()
-        if data:
-            print("The shop is sold out.")
-            print()
-            print("0: Exit")
-            print()
-            return int(input("> "))
     def choice_invaild(self):
         pass
     def choice_buy(self, item):

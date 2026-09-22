@@ -59,6 +59,9 @@ class wave:
                 self.choice = max(0, self.wave - 10)
                 self.choice = min(self.choice, 100)
                 monster.level = max(1,random.randint(self.wave - 4, self.wave + 2))
+            if self.wave % 10 == 0:
+                ms = self.scale_monster_boss(monster)
+                return ms
             ms = self.scale_monster(monster)
             return ms
         elif self.wave <= 5:
@@ -66,9 +69,6 @@ class wave:
             monster = Monster(data["Name"], data["health"], data["max health"], data["ATK"], data["DEF"], data["EXP"], data["level"], data["crt rate"], data["crt dmg"], data["dodge rate"], data["lootable"], data["gold"])
             monster.level = 1
             ms = self.scale_monster(monster)
-            return ms
-        if self.wave % 10 == 0:
-            ms = self.scale_monster_boss(monster)
             return ms
     def scale_monster(self, monster):
             level_multipler = monster.level - 1

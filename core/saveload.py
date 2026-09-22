@@ -13,20 +13,17 @@ def save_game(player, inventory, wave, shop):
     }
     with open(SAVE_FILE, "w") as f:
         json.dump(save_data, f, indent=4)
-
-        print("Saved Game!")
+    return True
 
 def load_game():
     try:
         with open(SAVE_FILE, "r") as f:
             save_data = json.load(f)
-        
+
         player = Player.from_dict(save_data["player"])
         inventory = Inventory.from_dict(save_data["inventory"])
         waves = wave.from_dict(save_data["wave"])
         shop = shops.from_dict(save_data["shop"])
-        print("Loaded game!")
         return player, inventory, waves, shop
     except FileNotFoundError:
-        print("You dont have any save file.")
-        return None, None
+        return None, None, None, None

@@ -5,6 +5,9 @@ from .battle_ui import BattleUI
 from .lootsystem_ui import LootsystemUI
 from .shop_ui import ShopUI
 from .wave_ui import WaveUI
+from .skill_ui import SkillUI
+from core.saveload import save_game as core_save_game
+from core.saveload import load_game as core_load_game
 class Game_ui:
     def __init__(self):
         self.player_ui = PlayerUI()
@@ -14,6 +17,7 @@ class Game_ui:
         self.lootsystem_ui = LootsystemUI()
         self.shop_ui = ShopUI()
         self.wave_ui = WaveUI()
+        self.skillui = SkillUI()
         self.menu = {
             "1": "Attack",
             "2": "Player status",
@@ -65,8 +69,6 @@ class Game_ui:
         return self.shop_ui.shop_menu(shop, player)
     def shop_choice(self):
         return self.shop_ui.shop_choice()
-    def shop_sold_out(self):
-        return self.shop_ui.sold_out()
     def shop_choice_buy(self, item):
         self.shop_ui.choice_buy(item)
     def shop_choice_sell(self, item):
@@ -77,3 +79,19 @@ class Game_ui:
         self.shop_ui.choice_sell_no()
     def next_wave(self, wave):
         self.wave_ui.next_wave(wave)
+    def skill_ui(self, player):
+        self.skillui.skill_menu_skill(player)
+    def attack_menu(self):
+        self.skillui.skill_menu()
+    def skill_choice(self):
+        return self.skillui.skill_choice()
+    def save_game(self, player, inventory, wave, shop):
+        core_save_game(player, inventory, wave, shop)
+        print("Saved Game!")
+    def load_game(self):
+        player, inventory, waves, shop = core_load_game()
+        if player is None:
+            print("You dont have any save file.")
+            return None, None, None, None
+        print("Loaded game!")
+        return player, inventory, waves, shop

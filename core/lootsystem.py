@@ -7,11 +7,12 @@ class loot_system:
     def roll(self, monster):
         list_drop_item = []
         drop_item = []
+        gold = monster.drop_gold()
         for i in monster.lootable:
             check = random.randint(1, 100)
             if check <= i[1]:
                 list_drop_item.append(i[0])
-            gold = monster.drop_gold()
+
         if list_drop_item:
             for item_name in list_drop_item:
                 template = ITEM_DATA[item_name]
@@ -21,7 +22,7 @@ class loot_system:
                     template.value,
                     template.stackable,
                     template.rarity,
-                    random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler - 20) 
+                    random.randint(template.base_price * template.rarity.multipler - 20, template.base_price * template.rarity.multipler + 20) 
                 )
                 self.roll_rarity(item)
                 drop_item.append(item)

@@ -9,7 +9,7 @@ from .lootsystem import loot_system
 from .shop import shops
 from .saveload import save_game, load_game
 from .wavemanager import wave
-from .skill import Skill, SKILLS
+from .skill import SKILLS
 class Game:
     def __init__(self, ui):
         self.ui = ui
@@ -19,18 +19,21 @@ class Game:
         self.loot = loot_system()
         self.shop = shops()
         self.wave = wave()
-        self.skill = Skill()
+        
         self.battles = Battle()
     def welcome(self):
         choice = self.ui.welcome()
-        if choice == "2":
-            self.player, self.inventory, self.wave, self.shop = load_game()
-            return self.wave.monster
-        elif choice == "1":
-            self.player.name = self.ui.get_player_name()
-            return 
         while choice not in ("2", "1"):
             choice = self.ui.welcome()
+        if choice == "2":
+            self.player, self.inventory, self.wave, self.shop = self.ui.load_game()
+            if self.wave:
+                return self.wave.monster
+            else:
+                choice = "1"
+        if choice == "1":
+            self.player.name = self.ui.get_player_name()
+            return 
     def run_action(self):
         self.player.run()
         self.next_wave()
@@ -46,32 +49,34 @@ class Game:
         if item.item_type == "heal":
             if self.heals.heal(self.player, item):
                 self.inventory.inventory_remove(item)
-                self.battles.monster_turn(self.player, self.monster, 1, 1)
+                name, damage, target, crit = self.battles.monster_turn(self.player, self.monster, 1, 1)
+                self.ui.attack_ui(name, damage, target, crit)
+
         else:
             self.ui.player_equip(self.player, item)
             self.player.equip(item)
     def shops(self):
         choice = self.ui.shop_choice()
-        print(choice)
         if choice == "1":
             choices = self.ui.shop_menu(self.shop, self.player)
             item = self.shop.shop_choice_buy(self.player, self.inventory, choices)
             if item:
                 self.inventory.inventory_add(item)
-            self.ui.shop_choice_buy(item)
+                self.ui.shop_choice_buy(item)
         if choice == "2":
             if self.inventory.inventory_check():
                 self.ui.show_player_inventory(self.inventory, self.player)
                 item_choice = self.ui.choice_inventory_ui()
                 item = self.inventory.inventory_choice(item_choice)
-                choices = self.ui.shop_choice_sell(item)
-                price = self.shop.shop_choice_sell(item, choices, self.player, self.inventory)
-                if price:
-                    self.ui.shop_choice_sell_yes(item, self.player.gold)
-                else:
-                    self.ui.shop_choice_sell_no()
+                if item:
+                    choices = self.ui.shop_choice_sell(item)
+                    price = self.shop.shop_choice_sell(item, choices, self.player, self.inventory)
+                    if price:
+                        self.ui.shop_choice_sell_yes(item, self.player.gold)
+                    else:
+                        self.ui.shop_choice_sell_no()
     def save_action(self):
-        save_game(self.player, self.inventory, self.wave, self.shop)
+        self.ui.save_game(self.player, self.inventory, self.wave, self.shop)
     def battle_start(self):
         name, damage, target, crit = self.battles.player_turn(self.player, self.monster, 1, 1, skill=False)
         self.ui.attack_ui(name, damage, target, crit)
@@ -83,20 +88,20 @@ class Game:
         else:
             self.player.gain_exp(self.monster.exp_drop)
     def load_action(self):
-        self.player, self.inventory, self.wave, self.shop = load_game()
+        self.player, self.inventory, self.wave, self.shop = self.ui.load_game()
     def status_player(self):
         self.ui.show_player_status(self.player)
     def status_monster(self):
         self.ui.show_monster_status(self.monster)
     def attack_skill(self):
-        self.skill.menu()
-        choice = input("> ")
+        self.ui.attack_menu()
+        choice = self.ui.skill_choice()
         if choice == "1":
             self.battle_start()
             return
         elif choice == "2":
-            self.skill.menu_skill(self.player)
-            choice = input("> ")
+            self.ui.skill_ui(self.player)
+            choice = self.ui.skill_choice()
             if not choice == "0":
                 skills = SKILLS[choice]
                 for index in self.player.skills:
@@ -116,13 +121,12 @@ class Game:
     def creative_action(self):
         self.actions = {
         "1": (self.attack_skill),
-        "2": (self.run_action),
-        "3": (self.status_player),
-        "4": (self.inventory_open),
-        "5": (self.status_monster),
-        "6": (self.shops),
-        "7": (self.save_action),
-        "8": (self.load_action)
+        "2": (self.status_player),
+        "3": (self.inventory_open),
+        "4": (self.status_monster),
+        "5": (self.shops),
+        "6": (self.save_action),
+        "7": (self.load_action)
         }
     def next_wave(self):
         wave, self.monster = self.wave.next_wave()
